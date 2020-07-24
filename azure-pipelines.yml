@@ -21,14 +21,7 @@ jobs:
     vmImage: 'ubuntu-latest'
 
 steps:
-- task: SonarCloudPrepare@1
-  displayName: sonarcloud prepare analysis
-  inputs:
-    SonarCloud: 'sonarcloud-pamelasoulis'
-    organization: '2006-jun15-net'
-    scannerMode: 'MSBuild'
-    projectKey: '2006-jun15-net_pamela-soulis-project1'
-    projectName: 'Pamela Soulis project 1'
+
 
 - task: NodeTool@0
   inputs:
