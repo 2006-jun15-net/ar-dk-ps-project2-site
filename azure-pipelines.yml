@@ -23,12 +23,13 @@ jobs:
   steps:
   - task: SonarCloudPrepare@1
     inputs:
-      SonarCloud: 'SonarCloud'
+      SonarCloud: 'ar-dk-ps-sonarcloud'
       organization: '2006-jun15-net'
       scannerMode: 'CLI'
       configMode: 'manual'
-      projectKey: '2006-jun15-net_ar-dk-ps-project2-site'
+      cliProjectKey: '2006-jun15-net_ar-dk-ps-project2-site'
       projectName: 'ar-dk-ps-project2-site'
+      
 
   - task: NodeTool@0
     inputs:
