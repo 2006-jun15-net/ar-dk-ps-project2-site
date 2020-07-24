@@ -38,8 +38,8 @@ jobs:
   - script: npm install
     displayName: npm install
 
-  - script: ng build --prod --build-optimizer
-    displayName: ng build
+  - script: npm build --prod --build-optimizer
+    displayName: npm build
   
 
   - task: SonarCloudAnalyze@1
