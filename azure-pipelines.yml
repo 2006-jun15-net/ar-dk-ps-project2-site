@@ -15,6 +15,10 @@ trigger:
 pr:
 - master
 
+variables:
+  appDir: ClassRegistration-site
+
+
 jobs:
 - job: build_linux
   pool:
@@ -29,6 +33,7 @@ jobs:
       configMode: 'manual'
       cliProjectKey: '2006-jun15-net_ar-dk-ps-project2-site'
       projectName: 'ar-dk-ps-project2-site'
+      cliSources: '$(appDir)/src'
       
 
   - task: NodeTool@0
@@ -36,23 +41,20 @@ jobs:
       versionSpec: '12.x'
     displayName: node install
 
-  # - script: |
-  #     npm install -g @angular/cli
-  #     npm install
-  #     ng build --prod
-  #   displayName: npm install and build
-  - script: npm install -g @angular/cli
-    displayName: npm install
+  - script: |
+      npm install -g @angular/cli
+      npm install
+      ng build --prod
+    displayName: npm install and build
+    workingDirectory: $(appDir)
+  
 
-  - script: npm install
-    displayName: npm install
+  # - script: npm install
+  #   displayName: npm install
 
   # - script: npm build --prod --build-optimizer
   #   displayName: npm build
-  - script: ng build --prod 
-    displayName: ng build
   
-
   
   
   - task: SonarCloudAnalyze@1
