@@ -36,6 +36,11 @@ jobs:
       versionSpec: '12.x'
     displayName: node install
 
+  # - script: |
+  #     npm install -g @angular/cli
+  #     npm install
+  #     ng build --prod
+  #   displayName: npm install and build
   - script: npm install -g @angular/cli
     displayName: npm install
 
@@ -46,6 +51,7 @@ jobs:
   #   displayName: npm build
   - script: ng build --prod 
     displayName: ng build
+  
 
   
   
@@ -57,13 +63,16 @@ jobs:
     inputs:
       pollingTimeoutSec: '300'
 
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
-      appType: 'webApp'
-      WebAppName: 'ar-dk-ps-project2'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/dist'
+  
+
+  
+  # - task: AzureRmWebAppDeployment@4
+  #   inputs:
+  #     ConnectionType: 'AzureRM'
+  #     azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
+  #     appType: 'webApp'
+  #     WebAppName: 'ar-dk-ps-project2'
+  #     packageForLinux: '$(System.DefaultWorkingDirectory)/dist'
   
   
 
