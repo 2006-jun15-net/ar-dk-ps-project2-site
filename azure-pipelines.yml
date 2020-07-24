@@ -4,16 +4,54 @@
 # https://aka.ms/yaml
 
 trigger:
+  branches: 
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - .gitignore
+
+pr:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+jobs:
+- job: build_linux
+  pool:
+    vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: SonarCloudPrepare@1
+  displayName: sonarcloud prepare analysis
+  inputs:
+    SonarCloud: 'sonarcloud-pamelasoulis'
+    organization: '2006-jun15-net'
+    scannerMode: 'MSBuild'
+    projectKey: '2006-jun15-net_pamela-soulis-project1'
+    projectName: 'Pamela Soulis project 1'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: node install
+
+
+- script: npm install
+  displayName: npm install
+
+- script: npx ng build --prod
+  displayName: ng build
+  
+- task: SonarCloudAnalyze@1
+  displayName: sonarcloud run analysis
+
+- task: SonarCloudPublish@1
+  displayName: publish sonarcloud result
+  inputs:
+    pollingTimeoutSec: '300'
+
+
+
+
+
+
