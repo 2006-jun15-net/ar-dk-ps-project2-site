@@ -57,13 +57,16 @@ jobs:
     inputs:
       pollingTimeoutSec: '300'
 
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
-      appType: 'webApp'
-      WebAppName: 'ar-dk-ps-project2'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/dist'
+  
+
+  
+  # - task: AzureRmWebAppDeployment@4
+  #   inputs:
+  #     ConnectionType: 'AzureRM'
+  #     azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
+  #     appType: 'webApp'
+  #     WebAppName: 'ar-dk-ps-project2'
+  #     packageForLinux: '$(System.DefaultWorkingDirectory)/dist'
   
   
 
