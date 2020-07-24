@@ -25,7 +25,8 @@ jobs:
     inputs:
       SonarCloud: 'SonarCloud'
       organization: '2006-jun15-net'
-      scannerMode: 'MSBuild'
+      scannerMode: 'CLI'
+      configMode: 'manual'
       projectKey: '2006-jun15-net_ar-dk-ps-project2-site'
       projectName: 'ar-dk-ps-project2-site'
 
