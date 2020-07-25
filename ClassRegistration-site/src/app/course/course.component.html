@@ -1,0 +1,45 @@
+
+<!-- <button type="button" (click)="getAllCourses()">Load the Courses Available</button> -->
+<h3>List of Course Names</h3>
+<!-- <div>
+  <h2>{{theCourse.courseName}}</h2>
+</div> -->
+<!-- 
+<div *ngIf="theCourses">
+  <div *ngIf ="theCourses.length === 0"> 
+    empty
+  </div>
+</div> -->
+<div *ngFor="let item of theCourses">
+  <h2>{{item.address.street}}</h2>
+</div>
+
+<!-- <ul>
+  <li *ngFor="let item of theCourses">
+    <span class="badge">
+      {{ item.courseName }}
+    </span>
+  </li>
+</ul> -->
+
+<!--  
+<div *ngIf="!fridgeItems && !error">
+  (loading...)
+</div> -->
+<!-- <div *ngIf="fridgeItems && !error"> -->
+  <!-- <div *ngIf="theCourses.length === 0">
+    (empty)
+  </div> -->
+  <!-- <ul *ngIf="theCourses"> -->
+    <!-- ngFor structural directive has a special syntax of its own -->
+    <!-- <li *ngFor="let item of theCourses">
+      {{ item.courseId }}
+    </li>
+  </ul> -->
+
+  <!-- <ul> -->
+    <!-- ngFor structural directive has a special syntax of its own -->
+    <!-- <li *ngFor="let item of theCourses">
+      {{ item.courseName }}
+    </li>
+  </ul>  -->
