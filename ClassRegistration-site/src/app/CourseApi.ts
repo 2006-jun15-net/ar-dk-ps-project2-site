@@ -1,22 +1,22 @@
 
-// export default interface CourseApi {
-//     courseName: string;
-//     courseId: number;
-//     studentId: number;
-//     deptId: number;
-//     credits: number;
-//     fees: number;
-//     reviews: [];
+export default interface CourseApi {
+    courseName: string;
+    courseId: number;
+    studentId: number;
+    deptId: number;
+    credits: number;
+    fees: number;
+    reviews: [];
 
-// }
+}
 
 //trying with url from exercise
-export default interface CourseApi {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-}
+// export default interface CourseApi {
+//     id: number;
+//     name: string;
+//     username: string;
+//     email: string;
+// }
 
 
 

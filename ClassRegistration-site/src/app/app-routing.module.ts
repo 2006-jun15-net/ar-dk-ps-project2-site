@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { CourseComponent } from './course/course.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/course', pathMatch: 'full' },
+  // { path: '', redirectTo: '/course', pathMatch: 'full' },
+  { path: 'course', component: CourseComponent },
 ];
 
 

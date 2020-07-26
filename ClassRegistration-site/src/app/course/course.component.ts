@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ClassRegistrationApiService} from '../class-registration-api.service';
 import CourseApi from '../CourseApi';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
-export class CourseComponent implements OnInit {
+export class CourseComponent {
 
   public theCourses: CourseApi[] | null = null;
   public theCourse: CourseApi | null = null;;
   public courseName: string | null = null;;
-
+  
 
   // theCourses: CourseApi [] = [
   //   { courseName: "Electronics",
@@ -32,7 +33,7 @@ export class CourseComponent implements OnInit {
   // ]; 
 
   
-  constructor(private dbCourse: ClassRegistrationApiService) { }
+  constructor(private dbCourse: ClassRegistrationApiService, private location: Location) { }
  
   public loadAllCourses(): Promise<void> {
     return this.dbCourse
@@ -53,8 +54,24 @@ export class CourseComponent implements OnInit {
   //     });
   // }
   // constructor() {}
-  ngOnInit(): void {
-    this.loadAllCourses().then();
+
+
+
+  // ngOnInit(): void {
+  //   this.loadAllCourses().then();
+  // }
+
+  goBack(): void {
+    this.location.back();
   }
+
+  // public getCourseById (id: number) {
+  //   this.dbCourse.getById(id)
+  //   .then((classes) =>  {
+  //     //console.log(classes);
+  //     this.theCourse = classes;
+  //   })
+  //}
  
 }
+ 
