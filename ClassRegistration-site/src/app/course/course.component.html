@@ -1,24 +1,204 @@
 
+
+<!-- this works: get all courses available + back button -->
 <div>
   <button type="button" (click)="loadAllCourses()">Load the Courses Available</button>
     <ul *ngFor="let item of theCourses">
       <li>{{item.courseName}}</li>
+      <li>{{item.courseId}}</li>
+      <li>{{item.deptId}}</li>
+      <li>{{item.credits}}</li>
+      <li>{{item.fees}}</li>
+      
     </ul>
+
     <button (click)="goBack()">go back</button>
+</div>
+ 
+ 
+
+<!-- filter pipe  -->
+<!-- <div class="md-form"> -->
+  <!-- <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" ; placeholder="&#61442;  Start searching for a course by id or name">  -->
+  <!-- <input type="search" [(ngModel)]="searchText" placeholder="Search text">
+  <button (click)="loadAllCourses()">Search</button> -->
+  
+<!-- </div>
+ <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Course Name</th>
+    <th>Department</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of theCourses | filterCourse: searchText">
+    <td>{{item.courseId}}</td>
+    <td>{{item.courseName}}</td>
+    <td>{{item.deptId}}</td>
+  </tr>
+  </tbody>
+</table>  -->
+
+
+<!-- just to verify the getbyid method -->
+<!-- <button (click)="getCoursesByInstructorId(55)">Search</button>
+  <ul *ngFor="let item of theCourses3">
+    <li>{{item.sectId}}</li>
+    <li>{{item.courseId}}</li>
+    <li>{{item.instructorId}}</li>
+    <li>{{item.course.courseName}}</li> -->
+    <!-- <li>{{item.fees}}</li> -->
+  <!-- </ul> -->
+  <!-- <div *ngIf="theCourses3">{{theCourses3.sectId}}</div>  -->
+
+
+
+
+
+<!-- this works: search course details by course name -->
+<div id="search-component">
+  <h4><label for="search-box">Course Search</label></h4>
+
+  <input #searchBox id="search-box" (input)="search(searchBox.value)" placeholder="Seach for a course by its name"/>
+  <button (click)="getCourseBytheName(searchBox.value)">Search</button>
+  <ul *ngIf="theCourse">
+    <li>{{ theCourse.courseName }}</li>
+    <li>{{ theCourse.courseId }}</li>
+    <li>{{ theCourse.deptId }}</li>
+    <li>{{ theCourse.credits }}</li>
+    <li>{{ theCourse.fees }}</li>
+  </ul>
+</div>
+
+
+
+<!-- don't need this anymore -->
+  <!-- <div *ngFor="let item of courses$ | async">
+    <ul *ngIf="item.courseName === searchBox.value">
+      <li>{{ item.courseName }}</li>
+      <li>{{ item.courseId }}</li>
+      <li>{{ item.deptId }}</li>
+      <li>{{ item.credits }}</li>
+      <li>{{ item.fees }}</li>
+    </ul> -->
+  <!-- <div *ngIf="course$"> -->
+    <!-- {{ course$.courseName }} -->
+    <!-- <li (*ngFor="let item of courses$") | {{ item.courseName | async }}></li> -->
+    
+  <!-- </div> -->
+
+
+
+
+
+<!-- this works: get course details by ID -->
+<div>
+  <h4><label for="form-box">Search a course by its ID number</label></h4>
+  <input type="text" id="form-box" class="form-control" [(ngModel)]="id" placeholder="Search for a course by ID number"/>
+  
+  <button (click)="getCourseById(id)">Search</button>
+  <div *ngIf="theCourse2">
+    <li>{{ theCourse2.courseName }}</li>
+    <li>{{ theCourse2.courseId }}</li>
+    <li>{{ theCourse2.deptId }}</li>
+    <li>{{ theCourse2.credits }}</li>
+    <li>{{ theCourse2.fees }}</li>
+  </div> 
 </div>
 
 
 
 
-  <!-- <div *ngIf="loadAllCourses()">
-  <ul *ngFor="let item of theCourses">
-    <li>{{item.courseName}}</li>
+<!-- this works: get courses and their reviews by instructor ID -->
+<div>
+  <h4><label for="form-box2">Search courses by Instructor ID</label></h4>
+  <input type="text" id="form-box2" class="form-control" [(ngModel)]="idProf" placeholder="Search for an Instructor's courses"/>
+  
+  <button (click)="getCoursesByInstructorId(idProf)">Search</button>
+  <ul *ngFor="let item of theCourses3">
+    <li>{{ item.sectId }}</li>
+    <li>{{ item.courseId }}</li>
+    <li>{{ item.instructorId }}</li>
+    <li>{{ item.course.courseName }}</li>
+    <li>{{ item.course.deptId }}</li>
+    <li>{{ item.course.credits }}</li>
+    <li>{{ item.course.fees }}</li>
+    <li *ngIf="item.course.reviews">
+      <ul *ngFor="let r of item.course.reviews">
+        <li>{{ r.score }}</li>
+        <li>{{ r.text }}</li>
+        <li>{{ r.date }}</li>
+      </ul>
+  </ul> 
+</div>
+
+
+
+
+
+
+
+
+<!-- don't need this anymore: search course details by course ID -->
+<!-- <div id="search-component">
+  <h4><label for="search-box">Course Search by ID</label></h4>
+
+  <input #searchBox id="search-box" (input)="searchID(searchBox.value)" />
+  <button (click)="getCourseById(searchBox.value)">Search</button>
+  <ul *ngIf="theCourse2">
+    <li>{{ theCourse2.courseName }}</li>
+    <li>{{ theCourse2.courseId }}</li>
+    <li>{{ theCourse2.deptId }}</li>
+    <li>{{ theCourse2.credits }}</li> 
+    <li>{{ theCourse2.fees }}</li>
   </ul>
 </div> -->
+  <!-- <div *ngIf="course$"> -->
+    <!-- {{ course$.courseName }} -->
+    <!-- <li (*ngFor="let item of courses$") | {{ item.courseName | async }}></li> -->
+    
 
-<!-- <ul *ngFor="let item of theCourses">
+
+
+
+
+
+
+<!-- <ul *ngFor="let item of theCourses | filterCourse: searchText">
   <li>{{item.courseName}}</li>
 </ul> -->
+
+
+
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="search-hero">
+      <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
+    </div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Course Name</th>
+        <th>Department</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of theCourses | filter:searchText">
+        <td>{{item.courseId}}</td>
+        <td>{{item.courseName}}</td>
+        <td>{{item.deptId}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> -->
+
+
+
 
 
 
@@ -26,41 +206,3 @@
 
 
 
-
-
-
-
-
-
-
-
-
-<!-- <div>
-  <a *ngFor="let item of theCourses" routerLink="/detail/{{item.courseId}}">
-    <div>
-      <h4>{{item.courseName}}</h4>
-    </div>
-  </a>
-</div> -->
-
-<!--  
-<div *ngIf="!fridgeItems && !error">
-  (loading...)
-</div> -->
-<!-- <div *ngIf="fridgeItems && !error"> -->
-  <!-- <div *ngIf="theCourses.length === 0">
-    (empty)
-  </div> -->
-  <!-- <ul *ngIf="theCourses"> -->
-    <!-- ngFor structural directive has a special syntax of its own -->
-    <!-- <li *ngFor="let item of theCourses">
-      {{ item.courseId }}
-    </li>
-  </ul> -->
-
-  <!-- <ul> -->
-    <!-- ngFor structural directive has a special syntax of its own -->
-    <!-- <li *ngFor="let item of theCourses">
-      {{ item.courseName }}
-    </li>
-  </ul>  -->

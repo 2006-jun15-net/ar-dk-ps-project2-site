@@ -3,21 +3,28 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+//import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 import { AppComponent } from './app.component';
 import { CourseComponent } from './course/course.component';
 import { ClassRegistrationApiService } from './class-registration-api.service';
 import { AppRoutingModule } from './app-routing.module';
+import { FilterCoursePipe } from './filter-course.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({ 
   declarations: [
     AppComponent,
-    CourseComponent
+    CourseComponent,
+    FilterCoursePipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
+    //Ng2SearchPipeModule
   ],
   providers: [ClassRegistrationApiService],
   // providers: [],

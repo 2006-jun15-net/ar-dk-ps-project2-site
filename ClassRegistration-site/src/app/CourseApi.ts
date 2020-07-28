@@ -10,13 +10,7 @@ export default interface CourseApi {
 
 }
 
-//trying with url from exercise
-// export default interface CourseApi {
-//     id: number;
-//     name: string;
-//     username: string;
-//     email: string;
-// }
+
 
 
 
