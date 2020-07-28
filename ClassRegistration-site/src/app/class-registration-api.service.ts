@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/Operators';
 import CourseApi from './CourseApi';
 import SectionApi from './SectionApi';
+import ReviewApi from './ReviewApi';
+import ReviewCreateApi from './ReviewCreateApi';
+
 import { Observable } from 'rxjs';
 
 
@@ -61,8 +64,18 @@ export class ClassRegistrationApiService {
       .get<SectionApi[]>(`${this.baseUrl}/api/Section?instructorId=${id}`);
       
   }
+  
+  //search courses by prof's last name
+  public getCourseByInstrName(term: string): Observable<SectionApi[]> {
+    return this.httpClient.get<SectionApi[]>(`${this.baseUrl}/api/Section/${term}`);
+    
+  }
 
-
+  //add a review : takes in student lastname, score, text
+  public addReview (term: string, item: ReviewCreateApi): Observable<ReviewApi> {
+    return this.httpClient.post<ReviewApi>(`${this.baseUrl}/api/Reviews?studentname=${term}`, item);
+  }
+  
 
   
 }

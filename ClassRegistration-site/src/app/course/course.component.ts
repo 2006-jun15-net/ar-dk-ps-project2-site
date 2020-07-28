@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ClassRegistrationApiService} from '../class-registration-api.service';
 import CourseApi from '../CourseApi';
 import SectionApi from '../SectionApi';
+import ReviewApi from '../ReviewApi';
+import ReviewCreateApi from '../ReviewCreateApi';
+
 import { Location } from '@angular/common';
 import { FilterCoursePipe } from '../filter-course.pipe';
 import { Observable, Subject } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -18,6 +22,8 @@ export class CourseComponent {
   public theCourse: CourseApi | null = null;
   public theCourse2: CourseApi | null = null;
   public theCourses3: SectionApi[] | null = null;
+  public theCourses4: SectionApi[] | null = null;
+  public theReviews: ReviewApi[] | null = null;
 
   public courseName: string | null = null;
   public courseId: number | null = null;
@@ -28,6 +34,7 @@ export class CourseComponent {
 
   id: number = 0;
   idProf: number = 0;
+  profName: string = 'ex. Harrison'
   thePlaceHolder: string = "start searching for a course by its ID number"
  
  
@@ -46,6 +53,12 @@ export class CourseComponent {
     //var idNum: number = parseInt(id)
     this.searchNumber.next(id);
   }
+
+  addReviewForm = new FormGroup( {
+    term: new FormControl(),
+    item: new FormControl(),
+    comment: new FormControl()
+  });
 
 
   // public loadAllCourses(): Promise<void> {
@@ -100,6 +113,20 @@ export class CourseComponent {
     })
   }
   
+
+  public getByInstrName (term: string): void {
+    this.dbCourse.getCourseByInstrName(this.profName)
+    .subscribe((classes) =>  {
+      console.log(classes);
+      this.theCourses4 = classes;
+    })
+  }
+
+  // public addCourseReview (term: string, item: number, comment: string): void {
+  //   this.dbCourse.addReview(term, item.value, comment.value).subscribe(newReview => {
+  //     this.theReviews.push(newReview);
+  //   })
+  // }
 }
 
  

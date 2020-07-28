@@ -9,16 +9,15 @@ export default interface SectionApi {
         deptId: number;
         credits: number;
         fees: number;
-        review: [];
-        // reviews: [
-        //     { 
-        //         reviewId: number;
-        //         score: number;
-        //         text: string;
-        //         date: Date;
-        //         courseId: number;
-        //     }
-        //]
+        reviews: [
+            { 
+                reviewId: number;
+                score: number;
+                text: string;
+                date: Date;
+                courseId: number;
+            }
+        ]
             
 
 
