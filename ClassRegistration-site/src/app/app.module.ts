@@ -8,13 +8,11 @@ import { StudentComponent } from './student/student.component';
 
 const authConfig =
 {
-  onAuthRequired: ({ oktaAuth, router }) => {
-    router.navigate(['/']);
-  },
   issuer: 'https://dev-638266.okta.com/oauth2/default',
-  redirectUri: location.origin + '/implicit/callback', //'http://localhost:4200/002-PUop-Zi33w850kleFnIUXVvNy2Vpx_4M7XTBBU/callback',
+  redirectUri: location.origin + '/implicit/callback',
   clientId: '0oan3a2afYLWJgufo4x6',
-  pkce: true
+  pkce: true,
+  scopes: ['openid', 'profile', 'email'],
 };
 
 const routes: Routes = [
