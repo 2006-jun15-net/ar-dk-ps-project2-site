@@ -63,7 +63,9 @@ jobs:
       cliProjectKey: '2006-jun15-net_ar-dk-ps-project2-site'
       projectName: 'ar-dk-ps-project2-site'
       cliSources: '$(appDir)/src,$(appDir)/e2e'
-
+      extraProperties: |
+        sonar.coverage.exclusions=**/*.spec.ts,$(appDir)/e2e/**/*
+        sonar.typescript.lcov.reportPaths=$(appDir)/coverage/$(appDir)/lcov.info
 
   # - script: npm install
   #   displayName: npm install
