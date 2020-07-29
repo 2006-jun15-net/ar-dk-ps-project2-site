@@ -19,6 +19,7 @@ variables:
   appDir: ClassRegistration-site
 
 
+
 jobs:
 - job: build_linux
   pool:
@@ -40,6 +41,11 @@ jobs:
   - script: npm install -g @angular/cli
     displayName: npm install
     workingDirectory: $(appDir)
+
+  - task: Npm@1
+    inputs:
+      command: 'install'
+      workingDir: 'ClassRegistration-site'
 
   - script: ng build --prod
     displayName: ng build
