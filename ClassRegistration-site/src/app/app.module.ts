@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -9,20 +10,12 @@ import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-a
 
 import { AppComponent } from './app.component';
 import { StudentComponent } from './components/student/student.component';
-import { CourseComponent } from './course/course.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CourseComponent } from './components/course/course.component';
 
-import { ClassRegistrationApiService } from './class-registration-api.service';
+import { StudentService } from './services/student.service';
+import { CourseService } from './services/course.service';
 
-const authConfig =
-{
-  issuer: 'https://dev-638266.okta.com/oauth2/default',
-  redirectUri: location.origin + '/implicit/callback',
-  clientId: '0oan3a2afYLWJgufo4x6',
-  pkce: true,
-  scopes: ['openid', 'profile', 'email']
-
-};
+import { AUTH } from './config';
 
 const routes: Routes = [
   {
@@ -31,7 +24,7 @@ const routes: Routes = [
   }
 ];
 
-@NgModule({ 
+@NgModule({
   declarations: [
     AppComponent,
     CourseComponent,
@@ -47,8 +40,9 @@ const routes: Routes = [
     ReactiveFormsModule
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: authConfig },
-    ClassRegistrationApiService
+    { provide: OKTA_CONFIG, useValue: AUTH },
+    StudentService,
+    CourseService
   ],
   bootstrap: [AppComponent]
 })
