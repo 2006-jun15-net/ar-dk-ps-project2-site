@@ -10,7 +10,7 @@ import { OktaAuthService } from '@okta/okta-angular';
 })
 export class StudentComponent implements OnInit {
 
-  isAuthenticed: boolean;
+  isAuthenticated: boolean;
 
   // creating a course array that holds enrollments
   enrollments: Enrollment[];
@@ -33,32 +33,41 @@ export class StudentComponent implements OnInit {
   // variable to hold total credits
   totalCredits: number = 0;
 
+  get student(): Student {
+    return localStorage['student'];
+  }
+
   constructor(private oktaAuth: OktaAuthService, private studentService: StudentService) {
 
     this.oktaAuth.$authenticationState.subscribe(
-      isAuthenticated => {
-
-        this.studentService.getStudentDetails().then(
-
-          service => service.subscribe(
-            value => localStorage['student'] = value
-          )
-        );
-
-        // Authentication state should not be available until StudentId is fetched and stored
-        this.isAuthenticed = isAuthenticated;
-      }
+      isAuthenticated => this.isAuthenticated = isAuthenticated
     );
   }
 
   async ngOnInit() {
-    this.isAuthenticed = await this.oktaAuth.isAuthenticated();
+
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+
+    if (this.isAuthenticated) {
+
+      this.studentService.getStudentDetails().then(
+
+        service => service.subscribe(
+
+          value => {
+            localStorage['student'] = value;
+            console.log(localStorage['student']);
+          },
+          error => console.log(error)
+        )
+      );
+    }
   }
 
   // getting courses of a particular student
   async getEnrollments() {
 
-    if (!this.isAuthenticed) {
+    if (!this.isAuthenticated) {
       this.login();
     }
 
@@ -71,7 +80,7 @@ export class StudentComponent implements OnInit {
   // getting amount owed
   async getAmount() {
 
-    if (!this.isAuthenticed) {
+    if (!this.isAuthenticated) {
       this.login();
     }
 
@@ -84,7 +93,7 @@ export class StudentComponent implements OnInit {
   // getting the discount.
   async getDiscount() {
 
-    if (!this.isAuthenticed) {
+    if (!this.isAuthenticated) {
       this.login();
     }
 
@@ -97,7 +106,7 @@ export class StudentComponent implements OnInit {
   // getting credits
   async getTotalCredits() {
 
-    if (!this.isAuthenticed) {
+    if (!this.isAuthenticated) {
       this.login();
     }
 
@@ -110,7 +119,7 @@ export class StudentComponent implements OnInit {
   // final Amount to be paid after discount
   getFinalAmount() {
 
-    if (!this.isAuthenticed) {
+    if (!this.isAuthenticated) {
       this.login()
     }
 

@@ -18,8 +18,10 @@ export class StudentService {
     const accessToken = await this.oktaAuth.getAccessToken();
     const user = await this.oktaAuth.getUser();
 
+    console.log(user);
+
     return this.http.get<Student>(
-      `http://localhost:47144/api/Student?FirstName=${user.given_name}&LastName=${user.family_name}`,
+      `${API_ORIGIN}/api/Student?FirstName=${user.given_name}&LastName=${user.family_name}`,
       API_HEADERS(accessToken));
   }
 
