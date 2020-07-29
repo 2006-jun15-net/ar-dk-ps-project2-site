@@ -15,12 +15,45 @@ trigger:
 pr:
 - master
 
+variables:
+  appDir: ClassRegistration-site
+
+
 jobs:
 - job: build_linux
   pool:
     vmImage: 'ubuntu-latest'
 
   steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: node install
+
+  - script: |
+      npm install -g @angular/cli
+      npm install
+      ng build --prod
+    displayName: npm install and build
+    workingDirectory: $(appDir)
+
+  - script: ng test
+      --browsers ChromeHeadless
+      --no-watch
+      --code-coverage
+    displayName: ng test
+    workingDirectory: $(appDir)
+  
+  - script: ng e2e
+    displayName: ng e2e
+    workingDirectory:  $(appDir)
+    enabled: false
+
+  - script: ng lint
+    displayName: ng lint
+    workingDirectory:  $(appDir)
+
+
   - task: SonarCloudPrepare@1
     inputs:
       SonarCloud: 'ar-dk-ps-sonarcloud'
@@ -29,30 +62,17 @@ jobs:
       configMode: 'manual'
       cliProjectKey: '2006-jun15-net_ar-dk-ps-project2-site'
       projectName: 'ar-dk-ps-project2-site'
-      
+      cliSources: '$(appDir)/src,$(appDir)/e2e'
+      extraProperties: |
+        sonar.coverage.exclusions=**/*.spec.ts,$(appDir)/e2e/**/*
+        sonar.typescript.lcov.reportPaths=$(appDir)/coverage/$(appDir)/lcov.info
 
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '12.x'
-    displayName: node install
-
-  # - script: |
-  #     npm install -g @angular/cli
-  #     npm install
-  #     ng build --prod
-  #   displayName: npm install and build
-  - script: npm install -g @angular/cli
-    displayName: npm install
-
-  - script: npm install
-    displayName: npm install
+  # - script: npm install
+  #   displayName: npm install
 
   # - script: npm build --prod --build-optimizer
   #   displayName: npm build
-  - script: ng build --prod 
-    displayName: ng build
   
-
   
   
   - task: SonarCloudAnalyze@1
@@ -63,16 +83,15 @@ jobs:
     inputs:
       pollingTimeoutSec: '300'
 
-  
 
-  
-  # - task: AzureRmWebAppDeployment@4
-  #   inputs:
-  #     ConnectionType: 'AzureRM'
-  #     azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
-  #     appType: 'webApp'
-  #     WebAppName: 'ar-dk-ps-project2'
-  #     packageForLinux: '$(System.DefaultWorkingDirectory)/dist'
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Azure subscription 1(3edca897-65af-4673-84e4-b3d1c79e363a)'
+      appType: 'webApp'
+      WebAppName: 'ar-dk-ps-project2-site'
+      packageForLinux: '$(appDir)/dist/$(appDir)'
+
   
   
 
