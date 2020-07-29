@@ -12,7 +12,8 @@ const authConfig =
   redirectUri: location.origin + '/implicit/callback',
   clientId: '0oan3a2afYLWJgufo4x6',
   pkce: true,
-  scopes: ['openid', 'profile', 'email'],
+  scopes: ['openid', 'profile', 'email']
+
 };
 
 const routes: Routes = [
