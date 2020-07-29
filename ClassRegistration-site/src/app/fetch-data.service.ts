@@ -15,8 +15,6 @@ export class FetchDataService {
 
     const accessToken = await this.oktaAuth.getAccessToken();
 
-    this.oktaAuth.getUser().then(user => console.log(user));
-
     return this.http.get(uri, {
 
       headers: {

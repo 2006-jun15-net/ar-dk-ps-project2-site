@@ -1,0 +1,1 @@
+export const API_ORIGIN = "https://ar-dk-ps=project2.azurewebsites.net";
