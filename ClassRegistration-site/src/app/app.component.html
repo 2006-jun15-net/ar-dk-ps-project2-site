@@ -1,4 +1,13 @@
 <button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
-<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
+
+<div *ngIf="isAuthenticated">
+	<button (click)="logout()"> Logout </button>
+	<button (click)="getCourses()"> Courses </button>
+
+	<div *ngFor="let course of courses">
+		<p>
+			<JSON class="stringify">{{ course }}</JSON>
+		</p>
+	</div>
+</div>
 <router-outlet></router-outlet>
-<app-student></app-student>
