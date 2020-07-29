@@ -37,7 +37,7 @@ jobs:
   #   displayName: npm install and build
   #   workingDirectory: $(appDir)
 
-  - script: npm ci
+  - script: npm install -g @angular/cli
     displayName: npm install
     workingDirectory: $(appDir)
 
