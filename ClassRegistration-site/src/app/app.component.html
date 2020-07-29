@@ -1,18 +1,15 @@
-<nav ngbNav #nav="ngbNav" class="nav-tabs">
-  <ng-container ngbNavItem>
-    <a ngbNavLink>Student Info</a>
-    <ng-template ngbNavContent>
-      <app-student></app-student>
-    </ng-template>
-  </ng-container>
-  <ng-container ngbNavItem>
-    <a ngbNavLink>Course Registration</a>
-    <ng-template ngbNavContent>
-      <!--<app-course></app-course>-->
-    </ng-template>
-  </ng-container>
-</nav>
+<button *ngIf="isAuthenticated" (click)="logout()"> logout </button>
 
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+<ul *ngIf="isAuthenticated" ngbNav class="nav-pills">
+
+  <li [ngbNavItem]="student" [active]="false">
+    <a ngbNavLink routerLink="/student">Student Info</a>
+  </li>
+
+  <li [ngbNavItem]="courses">
+    <a ngbNavLink routerLink="/courses">Course Registration</a>
+  </li>
+
+</ul>
 
 <router-outlet></router-outlet>

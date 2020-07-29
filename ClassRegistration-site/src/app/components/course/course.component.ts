@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder, Validators } from "@angular/forms";
+import { Course, Review } from '../../models/models';
+import { CourseService } from '../../services/course.service';
+import { ReviewService } from '../../services/review.service';
 
 
 
@@ -14,6 +17,28 @@ import { FormBuilder, Validators } from "@angular/forms";
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent {
+
+  courses: Course[] = [];
+  reviews: Review[] = [];
+
+  viewReviews: boolean = false;
+
+  constructor(private courseService: CourseService, private reviewService: ReviewService) { }
+
+  async searchByName(name: string) {
+
+    (await this.courseService.getCourseByName(name)).subscribe(
+      value => this.courses = [value],
+      error => console.log(error)
+    )
+  }
+
+  async getReviews(courseId: number) {
+    (await this.reviewService.getByCourse(courseId)).subscribe(
+      value => this.reviews = value,
+      error => console.log(error)
+    )
+  }
   /*
     public theCourses: CourseApi[] | null = null;
     public theCourse: CourseApi | null = null;

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 
 import { AppComponent } from './app.component';
@@ -21,17 +22,26 @@ const routes: Routes = [
   {
     path: 'implicit/callback',
     component: OktaCallbackComponent
+  },
+  {
+    path: 'student',
+    component: StudentComponent
+  },
+  {
+    path: 'courses',
+    component: CourseComponent
   }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CourseComponent,
-    StudentComponent
+    StudentComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     OktaAuthModule,

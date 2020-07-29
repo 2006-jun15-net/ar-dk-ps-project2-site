@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Course, Student, Enrollment } from '../models/models';
+import { Course, Student } from '../models/models';
 import { Observable } from 'rxjs';
 import { OktaAuthService } from '@okta/okta-angular';
 import { API_ORIGIN, API_HEADERS } from '../config';
@@ -18,18 +18,25 @@ export class StudentService {
     const accessToken = await this.oktaAuth.getAccessToken();
     const user = await this.oktaAuth.getUser();
 
-    console.log(user);
+    let firstName: string = '';
+    let lastName: string = '';
+
+    if (user !== undefined) {
+
+      firstName = user.given_name as string;
+      lastName = user.family_name as string;
+    }
 
     return this.http.get<Student>(
-      `${API_ORIGIN}/api/Student?FirstName=${user.given_name}&LastName=${user.family_name}`,
+      `${API_ORIGIN}/api/Student?FirstName=${firstName}&LastName=${lastName}`,
       API_HEADERS(accessToken));
   }
 
   //getting courses of a particular student
-  async getCourses(id: number): Promise<Observable<Enrollment[]>> {
+  async getCourses(id: number): Promise<Observable<Course[]>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-    return this.http.get<Enrollment[]>(`${API_ORIGIN}/api/Student/${id}/courses`, API_HEADERS(accessToken))
+    return this.http.get<Course[]>(`${API_ORIGIN}/api/Student/${id}/courses`, API_HEADERS(accessToken))
   }
 
   //getting total amount owed 

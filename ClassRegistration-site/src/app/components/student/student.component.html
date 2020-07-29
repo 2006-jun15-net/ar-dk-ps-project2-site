@@ -1,9 +1,6 @@
-<div>
-    <button *ngIf="!isAuthenticated" (click)="login()"> login </button>
-    <button *ngIf="isAuthenticated" (click)="logout()"> logout </button>
-
+<div *ngIf="student !== undefined">
     <div>
-        <table *ngIf="isAuthenticated && student !== null" id="details">
+        <table id="details">
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
@@ -20,28 +17,25 @@
             </tr>
         </table>
 
-        <p *ngIf="!isAuthenticated">Not logged in</p>
-
     </div>
 
-    <div *ngIf="isAuthenticated && student !== null">
+    <div>
         <ul>
-            <li *ngFor="let enrollment of enrollments">
-                {{enrollment.section.course.courseName}} <a href="#"
-                    (click)="addReview(enrollment.section.course.courseId)">review</a>
+            <li *ngFor="let course of courses">
+                {{course.courseName}} <a href="#">review</a>
             </li>
-            <li *ngIf="!enrollments || enrollments.length == 0">
+            <li *ngIf="!courses || courses.length == 0">
                 No registered courses for {{student.firstName + " " + student.lastName}}
             </li>
         </ul>
 
     </div>
 
-    <div *ngIf="isAuthenticated && student !== null">
+    <div>
         Discount: {{discount | currency}}
     </div>
 
-    <div *ngIf="isAuthenticated && student !== null">
+    <div>
         Enter semester: <input [(ngModel)]='semester'>
         <button (click)="getTotalCredits()">Credits for the selected semester</button>
         {{totalCredits}}

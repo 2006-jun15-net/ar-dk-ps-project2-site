@@ -23,3 +23,7 @@ export interface Enrollment {
 	section: Section;
 }
 
+export interface Review {
+	text: string;
+}
+

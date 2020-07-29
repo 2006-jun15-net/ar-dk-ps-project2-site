@@ -8,7 +8,6 @@ import { Course } from '../models/models';
 @Injectable({
   providedIn: 'root'
 })
-
 export class CourseService {
 
   constructor(private oktaAuth: OktaAuthService, private http: HttpClient) { }
