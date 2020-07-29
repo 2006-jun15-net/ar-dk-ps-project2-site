@@ -48,17 +48,23 @@ export class StudentComponent implements OnInit {
 
     if (this.isAuthenticated) {
 
-      this.studentService.getStudentDetails().then(
+      (await this.studentService.getStudentDetails()).subscribe(
 
-        service => service.subscribe(
+        value => {
 
-          value => {
+          this.student = value;
+          localStorage['studentId'] = value.studentId;
 
-            this.student = value;
-            localStorage['studentId'] = value.studentId;
-          },
-          error => console.log(error)
-        )
+          this.studentService.getDiscount(value.studentId).then(
+
+            service => service.subscribe(
+
+              value => this.discount = value,
+              error => console.log(error)
+            )
+          )
+        },
+        error => console.log(error)
       );
     }
   }

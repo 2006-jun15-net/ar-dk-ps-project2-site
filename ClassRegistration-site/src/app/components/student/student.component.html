@@ -24,7 +24,7 @@
 
     </div>
 
-    <div *ngIf="isAuthenticated">
+    <div *ngIf="isAuthenticated && student !== null">
         <button (click)="getCourses()">Get registered courses </button>
 
         <ul>
@@ -38,8 +38,8 @@
 
     </div>
 
-    <div *ngIf="isAuthenticated">
-        Enter semester : <input [(ngModel)]='semester'>
+    <div *ngIf="isAuthenticated && student !== null">
+        Enter semester: <input [(ngModel)]='semester'>
         <button (click)="getTotalCredits()">Credits for the selected semester</button>
         {{totalCredits}}
 
@@ -47,9 +47,8 @@
         {{amount | currency}}
     </div>
 
-    <div *ngIf="isAuthenticated">
-        <button (click)="getDiscount()">Discount</button>
-        {{discount | currency}}
+    <div *ngIf="isAuthenticated && student !== null">
+        Discount: {{discount | currency}}
     </div>
 
 </div>

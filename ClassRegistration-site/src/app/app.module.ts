@@ -7,6 +7,7 @@ import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-a
 
 import { AppComponent } from './app.component';
 import { StudentComponent } from './components/student/student.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const authConfig =
 {
@@ -35,7 +36,8 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes),
     OktaAuthModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: authConfig }
