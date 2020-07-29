@@ -25,17 +25,6 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
-  - task: SonarCloudPrepare@1
-    inputs:
-      SonarCloud: 'ar-dk-ps-sonarcloud'
-      organization: '2006-jun15-net'
-      scannerMode: 'CLI'
-      configMode: 'manual'
-      cliProjectKey: '2006-jun15-net_ar-dk-ps-project2-site'
-      projectName: 'ar-dk-ps-project2-site'
-      cliSources: '$(appDir)/src'
-      
-
   - task: NodeTool@0
     inputs:
       versionSpec: '12.x'
@@ -47,7 +36,34 @@ jobs:
       ng build --prod
     displayName: npm install and build
     workingDirectory: $(appDir)
+
+  - script: ng test
+      --browsers ChromeHeadless
+      --no-watch
+      --code-coverage
+    displayName: ng test
+    workingDirectory: $(appDir)
   
+  - script: ng e2e
+    displayName: ng e2e
+    workingDirectory:  $(appDir)
+    enabled: false
+
+  - script: ng lint
+    displayName: ng lint
+    workingDirectory:  $(appDir)
+
+
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'ar-dk-ps-sonarcloud'
+      organization: '2006-jun15-net'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: '2006-jun15-net_ar-dk-ps-project2-site'
+      projectName: 'ar-dk-ps-project2-site'
+      cliSources: '$(appDir)/src,$(appDir)/e2e'
+
 
   # - script: npm install
   #   displayName: npm install
