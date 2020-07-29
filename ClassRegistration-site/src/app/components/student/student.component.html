@@ -5,8 +5,8 @@
 </div>
 
 <div>
-    <button *ngIf="!isAuthenticated"> login </button>
-    <button *ngIf="isAuthenticated"> logout </button>
+    <button *ngIf="!isAuthenticated" (click)="login()"> login </button>
+    <button *ngIf="isAuthenticated" (click)="logout()"> logout </button>
 
     <div>
         <table *ngIf="isAuthenticated" id="details">
