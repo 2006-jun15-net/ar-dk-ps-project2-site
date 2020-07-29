@@ -10,14 +10,15 @@ import { AppComponent } from './app.component';
 import { CourseComponent } from './course/course.component';
 import { ClassRegistrationApiService } from './class-registration-api.service';
 import { AppRoutingModule } from './app-routing.module';
-import { FilterCoursePipe } from './filter-course.pipe';
+// import { FilterCoursePipe } from './filter-course.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({ 
   declarations: [
     AppComponent,
     CourseComponent,
-    FilterCoursePipe
+    // FilterCoursePipe
   ],
   imports: [
     BrowserModule,

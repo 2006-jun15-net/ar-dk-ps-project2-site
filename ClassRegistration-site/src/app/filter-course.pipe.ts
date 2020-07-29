@@ -1,23 +1,23 @@
-import { Pipe, PipeTransform } from '@angular/core';
+// import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'filterCourse'
-})
-export class FilterCoursePipe implements PipeTransform {
+// @Pipe({
+//   name: 'filterCourse'
+// })
+// export class FilterCoursePipe implements PipeTransform {
 
-  transform(items: any[], searchText: string): any[] {
-    if (!items) {
-      return [];
-    }
-    if (!searchText) {
-      return items;
-    }
-    searchText = searchText.toLocaleLowerCase();
+//   transform(items: any[], searchText: string): any[] {
+//     if (!items) {
+//       return [];
+//     }
+//     if (!searchText) {
+//       return items;
+//     }
+//     searchText = searchText.toLocaleLowerCase();
 
-    return items.filter(it => {
-      return it.toLocaleLowerCase().includes(searchText);
-    });
-  }
-
-}
+//     return items.filter(it => {
+//       return it.toLocaleLowerCase().includes(searchText);
+//     });
+//   }
+ 
+// }
 

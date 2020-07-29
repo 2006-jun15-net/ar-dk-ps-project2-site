@@ -6,13 +6,14 @@ import ReviewApi from '../ReviewApi';
 import ReviewCreateApi from '../ReviewCreateApi';
 import EnrollmentApi from '../EnrollmentApi';
 import EnrollmentCreateApi from '../EnrollmentCreateApi';
-import ReviewDisplayApi from '../ReviewDisplayApi';
+
 
 import { Location } from '@angular/common';
-import { FilterCoursePipe } from '../filter-course.pipe';
+// import { FilterCoursePipe } from '../filter-course.pipe';
 import { Observable, Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder, Validators} from "@angular/forms";
+
 
 
 @Component({
@@ -30,28 +31,26 @@ export class CourseComponent {
   public theReviews: ReviewApi[] | null = null;
   public theEnrollments: EnrollmentApi[] | null = null;
 
+  ViewReviews: boolean = false;
+  ReviewSubmitForm: boolean = false;
+
 
   form = this.fb.group({
-    term: [''],
+    term: ['', Validators.required],
   });
 
   form2 = this.fb.group({
-    item: [''],
-    comment: [''],
-    courseInfo: [''],
+    item: ['', Validators.required],
+    comment: ['', Validators.required],
+    courseInfo: ['', Validators.required],
   });
 
 
-  form3 = this.fb.group({
-    term: [''],
-    item: [''],
-    section: [''],
-  });
 
   public courseName: string | null = null;
   public courseId: number | null = null;
   courses$: Observable<CourseApi[]>;
-  //course$: Observable<CourseApi>;
+  
   private searchText = new Subject<string>();
   private searchNumber = new Subject<number>();
 
@@ -62,41 +61,29 @@ export class CourseComponent {
  
  
   
-  // constructor(private dbCourse: ClassRegistrationApiService, private location: Location, private filter: FilterCoursePipe) { }
+  
  
   constructor(private dbCourse: ClassRegistrationApiService, private location: Location, private fb: FormBuilder) { 
   
     this.courses$ = dbCourse.getAllCourses();
 
-    
 
   }
   
 
-  
   
   search(term: string): void {
     this.searchText.next(term);
   }
 
   searchID(id: number): void {
-    //var idNum: number = parseInt(id)
+    
     this.searchNumber.next(id);
   }
 
   
-
-
-  // public loadAllCourses(): Promise<void> {
-  //   return this.dbCourse 
-  //     .getAllCourses()
-  //     .then((classes) =>  {
-  //       console.log(classes);
-  //       this.theCourses = classes;
-  //     })
-  // }
  
-
+  //get all courses available
   public loadAllCourses(): void {
     this.dbCourse 
       .getAllCourses()
@@ -111,10 +98,13 @@ export class CourseComponent {
   //   this.loadAllCourses().then();
   // }
 
+
+  //return to home page
   goBack(): void {
     this.location.back();
   }
 
+  //search courses by ID number
   public getCourseById (id: number): void {
     this.dbCourse.getById(this.id)
     .subscribe((classes) =>  {
@@ -123,6 +113,7 @@ export class CourseComponent {
     })
   }
 
+  //search courses by name
   public getCourseBytheName (term: string): void {
     this.dbCourse.getCourseByName(term)
     .subscribe((classes) =>  {
@@ -131,15 +122,17 @@ export class CourseComponent {
     })
   }
 
-  public getCoursesByInstructorId (id: number): void {
-    this.dbCourse.getByInstructorId(id)
-    .subscribe((classes) =>  {
-      console.log(classes);
-      this.theCourses3 = classes;
-    })
-  }
+  
+  // public getCoursesByInstructorId (id: number): void {
+  //   this.dbCourse.getByInstructorId(id)
+  //   .subscribe((classes) =>  {
+  //     console.log(classes);
+  //     this.theCourses3 = classes;
+  //   })
+  // }
   
 
+  //search courses by professor: gives access to section ID and any reviews
   public getByInstrName (term: string): void {
     this.dbCourse.getCourseByInstrName(this.profName)
     .subscribe((classes) =>  {
@@ -149,7 +142,7 @@ export class CourseComponent {
   }
 
   
-  //submit a review for a course
+  //form to submit a review for a course
   public submitReviewForm(): void {
     const thename = this.form.get('term');
     if (thename) {
@@ -176,74 +169,23 @@ export class CourseComponent {
 
     }
     
-
-    
-  
-    //formData2.append("term");
-
-    // this.form.get('item');
-    // formData.append("item");
-    // this.form.get('comment');
-    // formData.append("comment");
-    // this.form.get('courseInfo');
-    // formData.append("courseInfo");
-    //formData.append("term" , this.form.get('term').value);
-    // formData.append("item", this.form.get('item').value);
-    // formData.append("comment", this.form.get('comment').value);
-    // formData.append("courseInfo", this.form.get('courseInfo').value);
     
   }
-
-  //register for a course
-  // public submitRegisterForm(): void {
-  //   const thestudentname = this.form3.get('term');
-  //   if (thestudentname) {
-  //     const name = thestudentname.value as string;
-  //     const thecoursename = this.form3.get('item');
-  //     if (thecoursename) {
-  //       const coursename = thecoursename.value as string;
-  //       const thesectionID = this.form3.get('section');
-  //       if (thesectionID) {
-  //         const sectId = thesectionID.value as number;
-  //         const EnrollmentToAdd: EnrollmentCreateApi = { sectId };
-  //         this.dbCourse.registerCourse(name, coursename, EnrollmentToAdd).subscribe(newRegister => {
-  //           console.log(newRegister);
-  //           this.theEnrollments?.push(newRegister);
-  //           this.form3.reset();
-  //         }) 
-  //       }
-  //     }
-  //   }
-  // } 
-
+ 
+  
 
   //register: need to use student's login
   public RegisterSection (item: SectionApi): void {
     const sectId = item.sectId;
-    const studentId = 2; //need to do this with the login
+    const studentId = 2; //need to do this with the login 
     const EnrollmentToAdd: EnrollmentCreateApi = { sectId , studentId };
     this.dbCourse.register(EnrollmentToAdd).subscribe(newRegister => {
       console.log(newRegister);
       this.theEnrollments?.push(newRegister);
-    })
+    }) 
   }
 
 
-
-  public loadReviews(item: SectionApi): void{
-    if (item.course.reviews) {
-      item.course.reviews.forEach(element => {
-        const score = element.score as number;
-        const text = element.text as string;
-        const date = element.date as Date;
-
-        const ReviewsToShow: ReviewDisplayApi = { score, text, date };
-        return ReviewsToShow;
-      });
-      
-    }
-    
-  }
   
   
 }
