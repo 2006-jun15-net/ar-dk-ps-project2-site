@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
+
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 
 import { AppComponent } from './app.component';
 import { StudentComponent } from './components/student/student.component';
+import { CourseComponent } from './course/course.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { ClassRegistrationApiService } from './class-registration-api.service';
 
 const authConfig =
 {
@@ -24,11 +29,12 @@ const routes: Routes = [
     path: 'implicit/callback',
     component: OktaCallbackComponent
   }
-]
+];
 
-@NgModule({
+@NgModule({ 
   declarations: [
     AppComponent,
+    CourseComponent,
     StudentComponent
   ],
   imports: [
@@ -37,10 +43,12 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     OktaAuthModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: authConfig }
+    { provide: OKTA_CONFIG, useValue: authConfig },
+    ClassRegistrationApiService
   ],
   bootstrap: [AppComponent]
 })
