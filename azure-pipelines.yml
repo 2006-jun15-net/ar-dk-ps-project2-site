@@ -41,12 +41,12 @@ jobs:
     displayName: npm install
     workingDirectory: $(appDir)
 
-  - script: npx ng build --prod
+  - script: ng build --prod
     displayName: ng build
     workingDirectory: $(appDir)
 
 
-  - script: npx ng test
+  - script: ng test
       --browsers ChromeHeadless
       --no-watch
       --code-coverage
@@ -55,12 +55,12 @@ jobs:
   
 
 
-  - script: npx ng e2e
+  - script: ng e2e
     displayName: ng e2e
     workingDirectory:  $(appDir)
     enabled: false
 
-  - script: npx ng lint
+  - script: ng lint
     displayName: ng lint
     workingDirectory:  $(appDir)
 
