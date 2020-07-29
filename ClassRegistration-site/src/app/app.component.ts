@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { StudentService } from './student.service';
-import { Course, Student, Enrollment } from './models';
+import { Course, Student, Enrollment } from './models/models';
 
 @Component({
   selector: 'app-root',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from 'src/app/services/student.service';
-import {Course} from '../../models/course';
-import { StudentDetails } from '../../models/StudentDetails';
+import { Course, Student } from '../../models/models';
 
 @Component({
   selector: 'app-student',
@@ -10,87 +9,96 @@ import { StudentDetails } from '../../models/StudentDetails';
 })
 export class StudentComponent implements OnInit {
 
+  studentId: number = 0;
+
   //creating a course array that holds courses
-  courses:Course[];
+  courses: Course[];
 
-  //creating a detials array to hold a student's information
-  details: StudentDetails;
-  
-  
-
-  //declaring a varible to hold amount owed
+  //declaring a variable to hold amount owed
   amount: number = 0;
-
 
   //last name of a student.
   name: string = '';
 
-  
   //semester variable
-  semester:string = '';
+  semester: string = '';
 
   //discount variable
-  discount:number = 0;
+  discount: number = 0;
 
   //final amount
-  finalAmount:number = 0;
+  finalAmount: number = 0;
 
   //variable to hold total credits
-  totalCredits:number = 0;
+  totalCredits: number = 0;
 
-  constructor(private _studentService: StudentService) { }
+  constructor(private studentService: StudentService) {
 
-  //getting courses of a particular student
-  getCourses(){
-    return this._studentService.getCourses(this.details.studentId)
-         .subscribe(data => this.courses = data);
+    if ('studentId' in localStorage) {
+      this.studentId = localStorage['studentId'];
+    }
   }
 
-  //getting student details
-  getStudentDetails(){
-    return this._studentService.getStudentDetails(this.name)
-           .subscribe(data => this.details = data)
+  async ngOnInit() {
 
+  }
+
+  //getting courses of a particular student
+  getCourses() {
+
+    if (this.studentId === 0) {
+      // error
+    }
+
+    return this.studentService.getCourses(this.studentId)
+      .subscribe(data => this.courses = data);
   }
 
   //getting amount owed
-  getAmount(){
-    return this._studentService.getAmount(this.details.studentId, this.semester)
-           .subscribe(data => this.amount = data)
+  getAmount() {
+
+    if (this.studentId === 0) {
+      // error
+    }
+
+    return this.studentService.getAmount(this.studentId, this.semester)
+      .subscribe(data => this.amount = data)
   }
 
 
   //getting the discount.
-  getDiscount(){
-    return this._studentService.getDiscount(this.details.studentId)
-           .subscribe(data => this.discount = data)
+  getDiscount() {
+    return this.studentService.getDiscount(this.studentId)
+      .subscribe(data => this.discount = data)
   }
 
   //final Amount to be paid after discount
-  getFinalAmount(){
+  getFinalAmount() {
 
-    if(this.amount < this.discount){
+    if (this.amount < this.discount) {
+
       this.finalAmount = 0
       return this.finalAmount;
     }
-    
-    this.finalAmount = this.amount- this.discount
+
+    this.finalAmount = this.amount - this.discount
+
     return this.finalAmount;
-            
+
   }
 
 
   //getting credits
-  getTotalCredits(){
-    return this._studentService.getTotalCredits(this.details.studentId, this.semester)
-           .subscribe(data => this.totalCredits = data )
+  getTotalCredits() {
+    return this.studentService.getTotalCredits(this.details.studentId, this.semester)
+      .subscribe(data => this.totalCredits = data)
   }
 
   ngOnInit(): void {
-    
-    
+
+
   }
 
-  
+
 
 }
