@@ -4,7 +4,6 @@ import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-a
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { StudentComponent } from './student/student.component';
 
 const authConfig =
 {
@@ -25,8 +24,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent,
-    StudentComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
