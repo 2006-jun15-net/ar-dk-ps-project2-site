@@ -5,6 +5,8 @@ import CourseApi from './CourseApi';
 import SectionApi from './SectionApi';
 import ReviewApi from './ReviewApi';
 import ReviewCreateApi from './ReviewCreateApi';
+import EnrollmentApi from './EnrollmentApi';
+import EnrollmentCreateApi from './EnrollmentCreateApi';
 
 import { Observable } from 'rxjs';
 
@@ -39,7 +41,6 @@ export class ClassRegistrationApiService {
       //.get<CourseApi[]>(`${this.baseUrl}/api/Course?PageNumber=3&PageSize=3`)
       .get<CourseApi[]>(`${this.baseUrl}/api/Course`)
       
-      //.pipe(map(data => data.map(data => new CourseApi().deserialize(data))));
     
   };
 
@@ -71,11 +72,19 @@ export class ClassRegistrationApiService {
     
   }
 
-  //add a review : takes in student lastname, score, text
-  public addReview (term: string, item: ReviewCreateApi): Observable<ReviewApi> {
-    return this.httpClient.post<ReviewApi>(`${this.baseUrl}/api/Reviews?studentname=${term}`, item);
+  //add a review for a course
+  public addReview (userName: string, userData: ReviewCreateApi): Observable<ReviewApi> {
+    return this.httpClient.post<ReviewApi>(`${this.baseUrl}/api/Reviews?studentname=${userName}`, userData);
+  }
+
+  //register for a course
+  // public registerCourse (userName: string, userCourse: string, userData: EnrollmentCreateApi): Observable<EnrollmentApi> {
+  //   return this.httpClient.post<EnrollmentApi>(`${this.baseUrl}/api/Enrollment?studentname=${userName}&coursename=${userCourse}`, userData);
+  // }
+
+  public register(item: EnrollmentCreateApi): Observable<EnrollmentApi> {
+    return this.httpClient.post<EnrollmentApi>(`${this.baseUrl}/api/Enrollment`, item);
   }
   
-
   
 }

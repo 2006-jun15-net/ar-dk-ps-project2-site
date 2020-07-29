@@ -3,14 +3,32 @@
 <!-- get all courses available + back button -->
 <div>
   <button type="button" (click)="loadAllCourses()">Load the Courses Available</button>
-    <ul *ngFor="let item of theCourses">
+    <!-- <ul *ngFor="let item of theCourses">
       <li>{{item.courseName}}</li>
       <li>{{item.courseId}}</li>
       <li>{{item.deptId}}</li>
       <li>{{item.credits}}</li>
       <li>{{item.fees}}</li>
       
-    </ul>
+    </ul> -->
+    <table class="table" *ngFor="let item of theCourses">
+      <tr>
+          <th>Course Name</th>
+          <th>Course Number</th>
+          <th>Department</th>
+          <th>Credit Points</th>
+          <th>Fee</th>
+      </tr>
+      <tr>
+          <td>{{ item.courseName }}</td>
+          <td>{{ item.courseId }}</td>
+          <td>{{ item.deptId }}</td>
+          <td>{{ item.credits }}</td>
+          <td>{{ item.fees }}</td>
+          
+      </tr>
+  
+    </table> 
 
     <button (click)="goBack()">go back</button>
 </div>
@@ -40,34 +58,33 @@
 
   <input #searchBox id="search-box" (input)="search(searchBox.value)" placeholder="Seach for a course by its name"/>
   <button (click)="getCourseBytheName(searchBox.value)">Search</button>
-  <ul *ngIf="theCourse">
+  <!-- <ul *ngIf="theCourse">
     <li>{{ theCourse.courseName }}</li>
     <li>{{ theCourse.courseId }}</li>
     <li>{{ theCourse.deptId }}</li>
     <li>{{ theCourse.credits }}</li>
     <li>{{ theCourse.fees }}</li>
-  </ul>
+  </ul> -->
+  <table class="table" *ngIf="theCourse">
+    <tr>
+        <th>Course Name</th>
+        <th>Course Number</th>
+        <th>Department</th>
+        <th>Credit Points</th>
+        <th>Fee</th>
+    </tr>
+    <tr>
+        <td>{{ theCourse.courseName }}</td>
+        <td>{{ theCourse.courseId }}</td>
+        <td>{{ theCourse.deptId }}</td>
+        <td>{{ theCourse.credits }}</td>
+        <td>{{ theCourse.fees }}</td>
+        
+    </tr>
+
+  </table> 
 </div>
 
-
-
-
-
-
-<!-- don't need this anymore -->
-  <!-- <div *ngFor="let item of courses$ | async">
-    <ul *ngIf="item.courseName === searchBox.value">
-      <li>{{ item.courseName }}</li>
-      <li>{{ item.courseId }}</li>
-      <li>{{ item.deptId }}</li>
-      <li>{{ item.credits }}</li>
-      <li>{{ item.fees }}</li>
-    </ul> -->
-  <!-- <div *ngIf="course$"> -->
-    <!-- {{ course$.courseName }} -->
-    <!-- <li (*ngFor="let item of courses$") | {{ item.courseName | async }}></li> -->
-    
-  <!-- </div> -->
 
 
 
@@ -79,26 +96,45 @@
   <input type="text" id="form-box" class="form-control" [(ngModel)]="id" placeholder="Search for a course by ID number"/>
   
   <button (click)="getCourseById(id)">Search</button>
-  <div *ngIf="theCourse2">
+  <!-- <div *ngIf="theCourse2">
     <li>{{ theCourse2.courseName }}</li>
     <li>{{ theCourse2.courseId }}</li>
     <li>{{ theCourse2.deptId }}</li>
     <li>{{ theCourse2.credits }}</li>
     <li>{{ theCourse2.fees }}</li>
-  </div> 
+  </div>  -->
+  <table class="table" *ngIf="theCourse2">
+    <tr>
+        <th>Course Name</th>
+        <th>Course Number</th>
+        <th>Department</th>
+        <th>Credit Points</th>
+        <th>Fee</th>
+    </tr>
+    <tr>
+        <td>{{ theCourse2.courseName }}</td>
+        <td>{{ theCourse2.courseId }}</td>
+        <td>{{ theCourse2.deptId }}</td>
+        <td>{{ theCourse2.credits }}</td>
+        <td>{{ theCourse2.fees }}</td>
+        
+    </tr>
+
+  </table> 
 </div>
 
 
 
-
-<!-- search by instructor's last name -->
+ 
+<!-- search courses and their reviews by instructor's last name -->
 <div>
   <h4><label for="form-box3">Search a course by Professor's last name</label></h4>
   <input type="text" id="form-box3" class="form-control" [(ngModel)]="profName" placeholder="Search for a course by a Prof's last name"/>
   
   <button (click)="getByInstrName(profName)">Search</button>
-  <ul *ngFor="let item of theCourses4">
+  <!-- <ul *ngFor="let item of theCourses4">
     <li>{{ item.sectId }}</li>
+    <li>{{ item.term }}</li>
     <li>{{ item.courseId }}</li>
     <li>{{ item.instructorId }}</li>
     <li>{{ item.course.courseName }}</li>
@@ -111,18 +147,136 @@
         <li>{{ r.text }}</li>
         <li>{{ r.date }}</li>
       </ul>
-  </ul> 
+  </ul>  -->
+  <table class="table" *ngIf="theCourses4">
+    <tr>
+        <th>#</th>
+        <th>Section Number</th>
+        <th>Term</th>
+        <th>Course Number</th>
+        <th>Instructor ID Number</th>
+        <th>Course</th>
+        <th>Department ID Number</th>
+        <th>Course Credit Points</th>
+        <th>Course Fee</th>
+    </tr>
+    <tr *ngFor="let item of theCourses4; let i = index" >
+        <td>{{i + 1}}</td>
+        <td>{{ item.sectId }}</td>
+        <td>{{ item.term }}</td>
+        <td>{{ item.courseId }}</td>
+        <td>{{ item.instructorId }}</td>
+        <td>{{ item.course.courseName }}</td>
+        <td>{{ item.course.deptId }}</td>
+        <td>{{ item.course.credits }}</td>
+        <td>{{ item.course.fees }}</td>
+
+        <button (click)="RegisterSection(item)">Register</button>
+          
+          
+    </tr>
+
+  </table> 
 </div>
+
+  <table class="table" *ngIf="theCourses4">
+    <div *ngFor="let item of theCourses4; let i = index" >
+      <div *ngIf="item.course.reviews === 0 ">No reviews have been written yet</div>
+      <tr *ngIf="item.course.reviews">
+        <h3>This professor's course reviews:</h3>
+        <th>#</th>
+        <th>Course Name</th>
+        <th>Review Score</th>
+        <th>Comment</th>
+        <th>Submission Date</th>
+      </tr>
+      <tr *ngFor="let r of item.course.reviews">
+          <td>{{i + 1}}</td>
+          <td>{{ item.course.courseName }}</td>
+          <td>{{ r.score }}</td>
+          <td>{{ r.text }}</td>
+          <td>{{ r.date }}</td>
+
+      </tr>
+    </div>
+  </table>
+
+  
+
  
 
 
+
 <!-- student adding a review for a course -->
+<div class="container">
+  <div>Add a Review for a Course</div>
+  <form [formGroup]="form">
+    <div class="form-group input-group-lg">
+      <input class="form-control" placeholder="Name" formControlName="term">
+    </div>
+
+  </form>
+  <form [formGroup]="form2" (ngSubmit)="submitReviewForm()">
+      
+      
+      <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Score" formControlName="item">
+      </div>
+      <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Any Comments" formControlName="comment">
+      </div>
+      <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Course's ID number" formControlName="courseInfo">
+      </div>
+
+      <div class="form-group">
+          <button class="btn btn-danger btn-block btn-lg">Create</button>
+      </div>
+  </form>
+</div>
+
+
+
+
+<!-- register for a course -->
+<!-- <div class="container">
+  <div>Register for a course</div>
+  <form [formGroup]="form3" (ngSubmit)="submitRegisterForm()">
+      
+      
+      <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Student Last Name" formControlName="term">
+      </div>
+      <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Course Name" formControlName="item">
+      </div>
+      <div class="form-group input-group-lg">
+        <input class="form-control" placeholder="Course's Section ID" formControlName="section">
+      </div>
+
+      <div class="form-group">
+          <button class="btn btn-danger btn-block btn-lg">Register</button>
+      </div>
+  </form>
+</div> -->
 
 
 
 
 
-<!-- this works: get courses and their reviews by instructor ID -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- get courses and their reviews by instructor ID -->
 <!-- <div>
   <h4><label for="form-box2">Search courses by Instructor ID</label></h4>
   <input type="text" id="form-box2" class="form-control" [(ngModel)]="idProf" placeholder="Search for an Instructor's courses"/>
@@ -171,15 +325,6 @@
     <!-- <li (*ngFor="let item of courses$") | {{ item.courseName | async }}></li> -->
     
 
-
-
-
-
-
-
-<!-- <ul *ngFor="let item of theCourses | filterCourse: searchText">
-  <li>{{item.courseName}}</li>
-</ul> -->
 
 
 
