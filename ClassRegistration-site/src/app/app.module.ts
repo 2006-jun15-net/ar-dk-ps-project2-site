@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+import { StudentComponent } from './components/student/student.component';
 
 const authConfig =
 {
@@ -24,13 +26,15 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StudentComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    OktaAuthModule
+    OktaAuthModule,
+    FormsModule
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: authConfig }

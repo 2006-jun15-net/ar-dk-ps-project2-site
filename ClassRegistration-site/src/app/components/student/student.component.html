@@ -1,0 +1,94 @@
+
+<div style="text-align: center">
+    <h1>
+        Student Details
+    </h1>
+</div>
+
+<div>
+    <div>
+
+        Enter a student's last name: <input [(ngModel)] = 'name'>
+
+        <!--Enter student ID  : <input [(ngModel)] ='id'> -->
+
+    </div>
+     
+
+    <div>
+       
+       <button (click)="getStudentDetails()">Student's information </button>
+       <table id="details">
+           <tr>
+               <th>studentId</th>
+               <th>First name</th>
+               <th>Last name</th>
+               <th>resident type</th>
+               <th>Department ID</th>
+               
+           </tr>
+           <tr>
+               <td>{{details.studentId}}</td>
+               <td>{{details.firstName}}</td>
+               <td>{{details.lastName}}</td>
+               <td>{{details.residentId}}</td>
+               <td>{{details.deptId}}</td>
+               
+
+
+           </tr>
+       </table>
+
+   </div>
+
+   <div>
+       <button (click)="getCourses()">Get registered courses </button>
+
+       <ul>
+           <li *ngFor = "let course of courses">
+               {{course.courseName}}
+       
+           </li>
+           <li *ngIf = "!courses || courses.length==0">
+               No registered courses for {{details.name}}
+
+           </li> 
+       </ul>
+       
+   </div> 
+
+   <div>
+       Enter semster  : <input [(ngModel)] ='semester'>
+       <button (click)= "getTotalCredits()">Credits for the selected semester</button>
+       {{totalCredits}}
+
+       <button (click)="getAmount()">Total amount of registered courses </button>
+       {{amount | currency}}
+   
+
+   </div>
+
+   <div>
+       <button (click) = "getDiscount()">Discount</button>
+       {{discount | currency}}
+   </div> 
+
+</div>
+
+<div>
+    <button (click) = "getFinalAmount()">Final Amount after discounts</button>
+    {{finalAmount | currency}}
+</div>
+  
+
+       
+        
+       
+       
+      
+      
+    
+   
+
+
+
