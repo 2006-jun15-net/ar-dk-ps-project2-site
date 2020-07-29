@@ -1,4 +1,3 @@
-
 <div style="text-align: center">
     <h1>
         Student Details
@@ -6,89 +5,62 @@
 </div>
 
 <div>
+    <button *ngIf="!isAuthenticated"> login </button>
+    <button *ngIf="isAuthenticated"> logout </button>
+
     <div>
+        <table *ngIf="isAuthenticated" id="details">
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>resident type</th>
+                <th>Department ID</th>
 
-        Enter a student's last name: <input [(ngModel)] = 'name'>
+            </tr>
+            <tr>
+                <td>{{localStorage['student'].firstName}}</td>
+                <td>{{localStorage['student'].lastName}}</td>
+                <td>{{localStorage['student'].residentId}}</td>
+                <td>{{localStorage['student'].deptId}}</td>
 
-        <!--Enter student ID  : <input [(ngModel)] ='id'> -->
+            </tr>
+        </table>
+
+        <p *ngIf="!isAuthenticated">Not logged in</p>
 
     </div>
-     
 
-    <div>
-       
-       <button (click)="getStudentDetails()">Student's information </button>
-       <table id="details">
-           <tr>
-               <th>studentId</th>
-               <th>First name</th>
-               <th>Last name</th>
-               <th>resident type</th>
-               <th>Department ID</th>
-               
-           </tr>
-           <tr>
-               <td>{{details.studentId}}</td>
-               <td>{{details.firstName}}</td>
-               <td>{{details.lastName}}</td>
-               <td>{{details.residentId}}</td>
-               <td>{{details.deptId}}</td>
-               
+    <div *ngIf="isAuthenticated">
+        <button (click)="getCourses()">Get registered courses </button>
 
+        <ul>
+            <li *ngFor="let enrollment of enrollments">
+                {{enrollment.section.course.courseName}}
+            </li>
+            <li *ngIf="!enrollments || enrollments.length == 0">
+                No registered courses for {{details.name}}
+            </li>
+        </ul>
 
-           </tr>
-       </table>
+    </div>
 
-   </div>
+    <div *ngIf="isAuthenticated">
+        Enter semester : <input [(ngModel)]='semester'>
+        <button (click)="getTotalCredits()">Credits for the selected semester</button>
+        {{totalCredits}}
 
-   <div>
-       <button (click)="getCourses()">Get registered courses </button>
+        <button (click)="getAmount()">Total amount of registered courses</button>
+        {{amount | currency}}
+    </div>
 
-       <ul>
-           <li *ngFor = "let course of courses">
-               {{course.courseName}}
-       
-           </li>
-           <li *ngIf = "!courses || courses.length==0">
-               No registered courses for {{details.name}}
-
-           </li> 
-       </ul>
-       
-   </div> 
-
-   <div>
-       Enter semster  : <input [(ngModel)] ='semester'>
-       <button (click)= "getTotalCredits()">Credits for the selected semester</button>
-       {{totalCredits}}
-
-       <button (click)="getAmount()">Total amount of registered courses </button>
-       {{amount | currency}}
-   
-
-   </div>
-
-   <div>
-       <button (click) = "getDiscount()">Discount</button>
-       {{discount | currency}}
-   </div> 
+    <div *ngIf="isAuthenticated">
+        <button (click)="getDiscount()">Discount</button>
+        {{discount | currency}}
+    </div>
 
 </div>
 
-<div>
-    <button (click) = "getFinalAmount()">Final Amount after discounts</button>
+<div *ngIf="isAuthenticated">
+    <button (click)="getFinalAmount()">Final Amount after discounts</button>
     {{finalAmount | currency}}
 </div>
-  
-
-       
-        
-       
-       
-      
-      
-    
-   
-
-
-

@@ -12,25 +12,25 @@ export class StudentComponent implements OnInit {
 
   isAuthenticed: boolean;
 
-  //creating a course array that holds courses
-  courses: Enrollment[];
+  // creating a course array that holds enrollments
+  enrollments: Enrollment[];
 
-  //declaring a variable to hold amount owed
+  // declaring a variable to hold amount owed
   amount: number = 0;
 
-  //last name of a student.
+  // last name of a student.
   name: string = '';
 
-  //semester variable
+  // semester variable
   semester: string = '';
 
-  //discount variable
+  // discount variable
   discount: number = 0;
 
-  //final amount
+  // final amount
   finalAmount: number = 0;
 
-  //variable to hold total credits
+  // variable to hold total credits
   totalCredits: number = 0;
 
   constructor(private oktaAuth: OktaAuthService, private studentService: StudentService) {
@@ -41,9 +41,9 @@ export class StudentComponent implements OnInit {
         this.studentService.getStudentDetails().then(
 
           service => service.subscribe(
-            value => localStorage['studentId'] = value.studentId
+            value => localStorage['student'] = value
           )
-        )
+        );
 
         // Authentication state should not be available until StudentId is fetched and stored
         this.isAuthenticed = isAuthenticated;
@@ -55,46 +55,46 @@ export class StudentComponent implements OnInit {
     this.isAuthenticed = await this.oktaAuth.isAuthenticated();
   }
 
-  //getting courses of a particular student
-  async getCourses() {
+  // getting courses of a particular student
+  async getEnrollments() {
 
     if (!this.isAuthenticed) {
       this.oktaAuth.loginRedirect('/');
     }
 
-    let studentId = localStorage['studentId'];
+    let studentId = localStorage['student'].studentId;
 
     return (await this.studentService.getCourses(studentId))
-      .subscribe(data => this.courses = data);
+      .subscribe(data => this.enrollments = data);
   }
 
-  //getting amount owed
+  // getting amount owed
   async getAmount() {
 
     if (!this.isAuthenticed) {
       this.oktaAuth.loginRedirect('/');
     }
 
-    let studentId = localStorage['studentId'];
+    let studentId = localStorage['student'].studentId;
 
     return (await this.studentService.getAmount(studentId, this.semester))
       .subscribe(data => this.amount = data)
   }
 
-  //getting the discount.
+  // getting the discount.
   async getDiscount() {
 
     if (!this.isAuthenticed) {
       this.oktaAuth.loginRedirect('/');
     }
 
-    let studentId = localStorage['studentId'];
+    let studentId = localStorage['student'].studentId;
 
     return (await this.studentService.getDiscount(studentId))
       .subscribe(data => this.discount = data)
   }
 
-  //final Amount to be paid after discount
+  // final Amount to be paid after discount
   getFinalAmount() {
 
     if (!this.isAuthenticed) {
@@ -112,14 +112,14 @@ export class StudentComponent implements OnInit {
     return this.finalAmount;
   }
 
-  //getting credits
+  // getting credits
   async getTotalCredits() {
 
     if (!this.isAuthenticed) {
       this.oktaAuth.loginRedirect('/');
     }
 
-    let studentId = localStorage['studentId'];
+    let studentId = localStorage['student'].studentId;
 
     return (await this.studentService.getTotalCredits(studentId, this.semester))
       .subscribe(data => this.totalCredits = data)
