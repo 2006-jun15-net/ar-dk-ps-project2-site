@@ -33,9 +33,7 @@ export class StudentComponent implements OnInit {
   // variable to hold total credits
   totalCredits: number = 0;
 
-  get student(): Student {
-    return localStorage['student'];
-  }
+  student: Student = null;
 
   constructor(private oktaAuth: OktaAuthService, private studentService: StudentService) {
 
@@ -55,8 +53,9 @@ export class StudentComponent implements OnInit {
         service => service.subscribe(
 
           value => {
-            localStorage['student'] = value;
-            console.log(localStorage['student']);
+
+            this.student = value;
+            localStorage['studentId'] = value.studentId;
           },
           error => console.log(error)
         )
@@ -67,11 +66,11 @@ export class StudentComponent implements OnInit {
   // getting courses of a particular student
   async getEnrollments() {
 
-    if (!this.isAuthenticated) {
+    if (!this.isAuthenticated || this.student === null) {
       this.login();
     }
 
-    let studentId = localStorage['student'].studentId;
+    let studentId = this.student.studentId;
 
     return (await this.studentService.getCourses(studentId))
       .subscribe(data => this.enrollments = data);
@@ -80,11 +79,11 @@ export class StudentComponent implements OnInit {
   // getting amount owed
   async getAmount() {
 
-    if (!this.isAuthenticated) {
+    if (!this.isAuthenticated || this.student === null) {
       this.login();
     }
 
-    let studentId = localStorage['student'].studentId;
+    let studentId = this.student.studentId;
 
     return (await this.studentService.getAmount(studentId, this.semester))
       .subscribe(data => this.amount = data)
@@ -93,11 +92,11 @@ export class StudentComponent implements OnInit {
   // getting the discount.
   async getDiscount() {
 
-    if (!this.isAuthenticated) {
+    if (!this.isAuthenticated || this.student === null) {
       this.login();
     }
 
-    let studentId = localStorage['student'].studentId;
+    let studentId = this.student.studentId;
 
     return (await this.studentService.getDiscount(studentId))
       .subscribe(data => this.discount = data)
@@ -106,11 +105,11 @@ export class StudentComponent implements OnInit {
   // getting credits
   async getTotalCredits() {
 
-    if (!this.isAuthenticated) {
+    if (!this.isAuthenticated || this.student === null) {
       this.login();
     }
 
-    let studentId = localStorage['student'].studentId;
+    let studentId = this.student.studentId;
 
     return (await this.studentService.getTotalCredits(studentId, this.semester))
       .subscribe(data => this.totalCredits = data)
@@ -119,7 +118,7 @@ export class StudentComponent implements OnInit {
   // final Amount to be paid after discount
   getFinalAmount() {
 
-    if (!this.isAuthenticated) {
+    if (!this.isAuthenticated || this.student === null) {
       this.login()
     }
 

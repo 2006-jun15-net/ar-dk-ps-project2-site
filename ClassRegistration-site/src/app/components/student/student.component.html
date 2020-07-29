@@ -3,7 +3,7 @@
     <button *ngIf="isAuthenticated" (click)="logout()"> logout </button>
 
     <div>
-        <table *ngIf="isAuthenticated" id="details">
+        <table *ngIf="isAuthenticated && student !== null" id="details">
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
