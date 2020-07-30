@@ -18,9 +18,7 @@ pr:
 - master
 
 variables:
-  appDir: ClassRegistration-site
-
-
+  appDir: class-registration-site
 
 jobs:
 - job: build_linux
@@ -47,12 +45,11 @@ jobs:
   - task: Npm@1
     inputs:
       command: 'install'
-      workingDir: 'ClassRegistration-site'
+      workingDir: 'class-registration-site'
 
   - script: ng build --prod
     displayName: ng build
     workingDirectory: $(appDir)
-
 
   # - script: ng test
   #     --browsers ChromeHeadless
@@ -61,8 +58,6 @@ jobs:
   #   displayName: ng test
   #   workingDirectory: $(appDir)
   
-
-
   # - script: ng e2e
   #   displayName: ng e2e
   #   workingDirectory:  $(appDir)
@@ -71,7 +66,6 @@ jobs:
   # - script: ng lint
   #   displayName: ng lint
   #   workingDirectory:  $(appDir)
-
 
   - task: SonarCloudPrepare@1
     inputs:
@@ -92,8 +86,6 @@ jobs:
   # - script: npm build --prod --build-optimizer
   #   displayName: npm build
   
-  
-  
   - task: SonarCloudAnalyze@1
     displayName: sonarcloud run analysis
 
@@ -110,10 +102,4 @@ jobs:
       appType: 'webApp'
       WebAppName: 'ar-dk-ps-project2-site'
       packageForLinux: '$(appDir)/dist/$(appDir)'
-
-  
-  
-
-
-
-
+ 

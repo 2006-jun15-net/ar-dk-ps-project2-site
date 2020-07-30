@@ -53,10 +53,14 @@
 
     </div>
 
+    <label *ngIf="viewReviews" for="reviews">Reviews:</label>
+
     <div>
+
       <ul *ngIf="viewReviews" class="list-group list-group-flush">
         <li *ngFor="let review of section.course.reviews" class=" list-group-item">{{review.text}}</li>
       </ul>
+
     </div>
 
   </div>
