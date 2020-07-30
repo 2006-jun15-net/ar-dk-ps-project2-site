@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from 'src/app/services/student.service';
-import { Student, Course } from '../../models/models';
+import { Student, Course, Enrollment } from '../../models/models';
 
 @Component({
   selector: 'app-student',
@@ -9,14 +9,11 @@ import { Student, Course } from '../../models/models';
 })
 export class StudentComponent implements OnInit {
 
-  // creating a course array that holds enrollments
-  courses: Course[] = [];
-
   // declaring a variable to hold amount owed
   amount: number = 0;
 
   // semester variable
-  semester: string = '';
+  semester: string = "fall";
 
   // discount variable
   discount: number = 0;
@@ -45,17 +42,45 @@ export class StudentComponent implements OnInit {
           value => this.discount = value,
           error => console.log(error)
         );
-
-        (await this.studentService.getCourses(value.studentId)).subscribe(
-
-          value => {
-            console.log(value); this.courses = value;
-          },
-          error => console.log(error)
-        );
       },
       error => console.log(error)
     );
+  }
+
+  getTermEnrollments() {
+
+    let enrollments: Enrollment[] = [];
+
+    if (this.student !== undefined) {
+
+      if (!this.student.enrollment || this.student.enrollment.length === 0) {
+        return enrollments;
+      }
+
+      for (let index in this.student.enrollment) {
+
+        let enroll = this.student.enrollment[index];
+
+        if (enroll.section.term == this.semester) {
+          enrollments.push(enroll);
+        }
+      }
+    }
+
+    return enrollments;
+  }
+
+  getTermCredits() {
+
+    let enrollmentsForTerm = this.getTermEnrollments();
+
+    if (enrollmentsForTerm.length === 0) {
+      return 0;
+    }
+
+    let credits = enrollmentsForTerm.map((value: Enrollment) => value.section.course.credits);
+
+    return credits.reduce((acc, cur) => acc + cur, 0);
   }
 
   // getting amount owed
@@ -69,19 +94,6 @@ export class StudentComponent implements OnInit {
 
     (await this.studentService.getAmount(studentId, this.semester))
       .subscribe(data => this.amount = data)
-  }
-
-  // getting credits
-  async getTotalCredits() {
-
-    if (this.student === undefined) {
-      return;
-    }
-
-    let studentId = this.student.studentId;
-
-    (await this.studentService.getTotalCredits(studentId, this.semester))
-      .subscribe(data => this.totalCredits = data)
   }
 
   // final Amount to be paid after discount

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Course, Student } from '../models/models';
+import { Course, Student, Review } from '../models/models';
 import { Observable } from 'rxjs';
 import { OktaAuthService } from '@okta/okta-angular';
 import { API_ORIGIN, API_HEADERS } from '../config';
@@ -53,10 +53,20 @@ export class StudentService {
     return this.http.get<any>(`${API_ORIGIN}/api/Student/${id}/discount`, API_HEADERS(accessToken))
   }
 
-  //getting credits for a student in a specified term
-  async getTotalCredits(id: number, semester: string): Promise<Observable<any>> {
+  async createReview(studentId: number, courseId: number, text: string): Promise<Observable<any>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-    return this.http.get<any>(`${API_ORIGIN}/api/Enrollment/${id}/${semester}`, API_HEADERS(accessToken))
+
+    let review: Review = {
+
+      courseId: courseId,
+      studentId: studentId,
+      text: text
+
+    } as Review;
+
+    return this.http.post<Review>(`${API_ORIGIN}/api/Reviews`, {
+      ...API_HEADERS(accessToken), ...{ body: review }
+    });
   }
 }

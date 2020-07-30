@@ -1,50 +1,40 @@
 <div *ngIf="student !== undefined">
-    <div>
-        <table id="details">
-            <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Resident type</th>
-                <th>Department ID</th>
-
-            </tr>
-            <tr>
-                <td>{{student.firstName}}</td>
-                <td>{{student.lastName}}</td>
-                <td>{{student.residentId}}</td>
-                <td>{{student.deptId}}</td>
-
-            </tr>
-        </table>
-
-    </div>
 
     <div>
-        <ul>
-            <li *ngFor="let course of courses">
-                {{course.courseName}} <a href="#">review</a>
-            </li>
-            <li *ngIf="!courses || courses.length == 0">
-                No registered courses for {{student.firstName + " " + student.lastName}}
-            </li>
-        </ul>
-
+        <h2>Welcome, {{student.firstName}} {{student.lastName}}!</h2>
     </div>
 
-    <div>
-        Discount: {{discount | currency}}
+    <mat-form-field appearance="fill">
+        <mat-label>Term</mat-label>
+        <mat-select [(ngModel)]="semester" [(value)]="semester" (change)="getAmount()">
+            <mat-option value="fall">Fall</mat-option>
+            <mat-option value="spring">Spring</mat-option>
+            <mat-option value="summer">Summer</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <h3>Enrolled Courses:</h3>
+
+    <div *ngFor="let enrollment of getTermEnrollments()" class="card">
+        <div class="card-body">
+            {{enrollment.section.course.courseName}} {{enrollment.section.course.credits}}
+            {{enrollment.section.course.fees}} {{enrollment.section.term}}
+        </div>
     </div>
 
-    <div>
-        Enter semester: <input [(ngModel)]='semester'>
-        <button (click)="getTotalCredits()">Credits for the selected semester</button>
-        {{totalCredits}}
+    <h4>
+        Total Credits: {{getTermCredits()}}
+    </h4>
 
-        <button (click)="getAmount()">Total amount of registered courses</button>
-        {{amount | currency}}
+    <h4>
+        Total Amount Owed: {{this.amount}}
+    </h4>
 
-        <button (click)="getFinalAmount()">Final Amount after discounts</button>
-        {{finalAmount | currency}}
-    </div>
+    <h4>
+        {{student.residentId}} Discount: {{discount | currency}}
+    </h4>
 
+    <h4>
+        Final Amount After Discount: {{getFinalAmount()}}
+    </h4>
 </div>

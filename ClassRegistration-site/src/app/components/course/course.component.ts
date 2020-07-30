@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Location } from '@angular/common';
-// import { FilterCoursePipe } from '../filter-course.pipe';
 import { Observable, Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder, Validators } from "@angular/forms";
-import { Course, Review } from '../../models/models';
+import { Course, Review, Section } from '../../models/models';
 import { CourseService } from '../../services/course.service';
-import { ReviewService } from '../../services/review.service';
-
-
 
 @Component({
   selector: 'app-course',
@@ -18,147 +14,37 @@ import { ReviewService } from '../../services/review.service';
 })
 export class CourseComponent {
 
-  courses: Course[] = [];
-  reviews: Review[] = [];
+  sections: Section[]
 
   viewReviews: boolean = false;
 
-  constructor(private courseService: CourseService, private reviewService: ReviewService) { }
+  constructor(private courseService: CourseService) { }
 
   async searchByName(name: string) {
 
-    (await this.courseService.getCourseByName(name)).subscribe(
-      value => this.courses = [value],
+    (await this.courseService.getByName(name)).subscribe(
+      value => this.sections = [value],
       error => console.log(error)
     )
   }
 
-  async getReviews(courseId: number) {
-    (await this.reviewService.getByCourse(courseId)).subscribe(
-      value => this.reviews = value,
+  async searchByInstructor(name: string) {
+
+    (await this.courseService.getByInstructorName(name)).subscribe(
+      value => this.sections = value,
       error => console.log(error)
     )
   }
+
+  async searchByCourseId(id: number) {
+
+    (await this.courseService.getByCourseId(id)).subscribe(
+      value => this.sections = [value],
+      error => console.log(error)
+    )
+  }
+
   /*
-    public theCourses: CourseApi[] | null = null;
-    public theCourse: CourseApi | null = null;
-    public theCourse2: CourseApi | null = null;
-    public theCourses3: SectionApi[] | null = null;
-    public theCourses4: SectionApi[] | null = null;
-    public theReviews: ReviewApi[] | null = null;
-    public theEnrollments: EnrollmentApi[] | null = null;
-  
-    ViewReviews: boolean = false;
-    ReviewSubmitForm: boolean = false;
-  
-  
-    form = this.fb.group({
-      term: ['', Validators.required],
-    });
-  
-    form2 = this.fb.group({
-      item: ['', Validators.required],
-      comment: ['', Validators.required],
-      courseInfo: ['', Validators.required],
-    });
-  
-  
-  
-    public courseName: string | null = null;
-    public courseId: number | null = null;
-    courses$: Observable<CourseApi[]>;
-  
-    private searchText = new Subject<string>();
-    private searchNumber = new Subject<number>();
-  
-    id: number = 0;
-    idProf: number = 0;
-    profName: string = 'ex. Erickson'
-    thePlaceHolder: string = "start searching for a course by its ID number"
-  
-  
-  
-  
-  
-    constructor(private dbCourse: ClassRegistrationApiService, private location: Location, private fb: FormBuilder) {
-  
-      this.courses$ = dbCourse.getAllCourses();
-  
-  
-    }
-  
-  
-  
-    search(term: string): void {
-      this.searchText.next(term);
-    }
-  
-    searchID(id: number): void {
-  
-      this.searchNumber.next(id);
-    }
-  
-  
-  
-    //get all courses available
-    public loadAllCourses(): void {
-      this.dbCourse
-        .getAllCourses()
-        .subscribe((classes) => {
-          console.log(classes);
-          this.theCourses = classes;
-        })
-    }
-  
-  
-    // ngOnInit(): void {
-    //   this.loadAllCourses().then();
-    // }
-  
-  
-    //return to home page
-    goBack(): void {
-      this.location.back();
-    }
-  
-    //search courses by ID number
-    public getCourseById(id: number): void {
-      this.dbCourse.getById(this.id)
-        .subscribe((classes) => {
-          console.log(classes);
-          this.theCourse2 = classes;
-        })
-    }
-  
-    //search courses by name
-    public getCourseBytheName(term: string): void {
-      this.dbCourse.getCourseByName(term)
-        .subscribe((classes) => {
-          //console.log(classes);
-          this.theCourse = classes;
-        })
-    }
-  
-  
-    // public getCoursesByInstructorId (id: number): void {
-    //   this.dbCourse.getByInstructorId(id)
-    //   .subscribe((classes) =>  {
-    //     console.log(classes);
-    //     this.theCourses3 = classes;
-    //   })
-    // }
-  
-  
-    //search courses by professor: gives access to section ID and any reviews
-    public getByInstrName(term: string): void {
-      this.dbCourse.getCourseByInstrName(this.profName)
-        .subscribe((classes) => {
-          console.log(classes);
-          this.theCourses4 = classes;
-        })
-    }
-  
-  
     //form to submit a review for a course
     public submitReviewForm(): void {
       const thename = this.form.get('term');
@@ -183,11 +69,8 @@ export class CourseComponent {
             }
           }
         }
-  
       }
-  
     }
-  
   
     //register: need to use student's login
     public RegisterSection(item: SectionApi): void {
@@ -199,8 +82,4 @@ export class CourseComponent {
         this.theEnrollments?.push(newRegister);
       })
     }*/
-
-
-
-
 }
