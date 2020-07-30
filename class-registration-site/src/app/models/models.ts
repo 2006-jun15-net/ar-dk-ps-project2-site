@@ -17,6 +17,7 @@ export interface Course {
 
 export interface Section {
 	instructorId: number;
+	courseId: number;
 	course: Course;
 	term: string;
 }

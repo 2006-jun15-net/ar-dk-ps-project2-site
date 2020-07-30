@@ -1,47 +1,51 @@
-<div id="search-component">
+<div class="container">
 
-  <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+  <div id="search-component">
 
-    <label class="form-control" for="search-box-1">Name: </label>
+    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
 
-    <input type="text" class="form-control" id="search-box-1" #searchBox1 placeholder="Course Name" />
-    <i class="fas fa-search" aria-hidden="true" (click)="searchByName(searchBox1.value)"></i>
+      <label for="search-box-1">Name: </label>
 
-  </form>
+      <input type="text" class="form-control" id="search-box-1" #searchBox1 placeholder="Course Name" />
+      <i class="fas fa-search" aria-hidden="true" (click)="searchByName(searchBox1.value)"></i>
 
-  <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    </form>
 
-    <label class="form-control" for="search-box-2">Instructor: </label>
+    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
 
-    <input type="text" class="form-control" id="search-box-2" #searchBox2 placeholder="Instructor Name" />
-    <i class="fas fa-search" aria-hidden="true" (click)="searchByInstructor(searchBox2.value)"></i>
+      <label for="search-box-2">Instructor: </label>
 
-  </form>
+      <input type="text" class="form-control" id="search-box-2" #searchBox2 placeholder="Instructor Name" />
+      <i class="fas fa-search" aria-hidden="true" (click)="searchByInstructor(searchBox2.value)"></i>
 
-  <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+    </form>
 
-    <label class="form-control" for="search-box-3">ID: </label>
+    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
 
-    <input type="number" min="100" step="10" class="form-control" id="search-box-3" #searchBox3
-      placeholder="Course ID" />
-    <i class="fas fa-search" aria-hidden="true" (click)="searchByCourseId(searchBox3.value)"></i>
+      <label for="search-box-3">ID: </label>
 
-  </form>
+      <input type="number" min="100" step="10" class="form-control" id="search-box-3" #searchBox3
+        placeholder="Course ID" />
+      <i class="fas fa-search" aria-hidden="true" (click)="searchByCourseId(searchBox3.value)"></i>
 
-</div>
+    </form>
 
-<h4 *ngIf="sections && sections.length > 0">Courses found:</h4>
+  </div>
 
-<div *ngFor="let section of sections" class="card">
+  <h4 *ngIf="sections && sections.length > 0">Courses found:</h4>
 
-  <div class="card-body">
+  <div *ngFor="let section of sections" class="card">
 
-    {{section.course.courseName}} {{section.course.credits}} {{section.term}} <button
-      (click)="viewReviews = !viewReviews">{{ viewReviews ? 'Hide' : 'View Reviews' }}</button>
+    <div class="card-body">
 
-    <ul *ngIf="viewReviews" class="list-group list-group-flush">
-      <li *ngFor="let review of section.course.reviews" class=" list-group-item">{{review.text}}</li>
-    </ul>
+      {{section.course.courseName}} {{section.course.credits}} {{section.term}} <button
+        (click)="viewReviews = !viewReviews">{{ viewReviews ? 'Hide' : 'View Reviews' }}</button>
+
+      <ul *ngIf="viewReviews" class="list-group list-group-flush">
+        <li *ngFor="let review of section.course.reviews" class=" list-group-item">{{review.text}}</li>
+      </ul>
+
+    </div>
 
   </div>
 

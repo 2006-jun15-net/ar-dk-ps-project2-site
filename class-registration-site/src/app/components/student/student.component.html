@@ -22,8 +22,9 @@
                     <textarea #reviewText class="form-control" id="review-text" placeholder="Review text..."></textarea>
                 </div>
 
+                <label for="review-score">Score:</label>
+
                 <div class="input-group">
-                    <label for="review-score">Score:</label>
                     <input #reviewScore type="number" class="form-control" id="review-score" value="0" min="0"
                         max="10" />
                 </div>
@@ -45,7 +46,7 @@
         </ngb-alert>
 
         <ngb-alert [type]="success" [dismissable]="false" *ngIf="student.creditRequirmentsMet">
-            Credit requirements not met
+            Credit requirements met
         </ngb-alert>
     </div>
 
@@ -61,7 +62,7 @@
             <label class="col">{{ enrollment.sect.course.credits }}</label>
             <label class="col">{{ enrollment.sect.course.fees | currency }}</label>
             <label class="col">{{ enrollment.sect.term }}</label> <button class="btn btn-info col"
-                (click)="openModal(reviewModal)">Review</button>
+                (click)="openModal(reviewModal, enrollment.sect.courseId)">Review</button>
             <button class="btn btn-danger col">Delete</button>
         </div>
     </div>

@@ -121,5 +121,7 @@ export class StudentComponent implements OnInit {
         error => console.log(error)
       )
     );
+
+    alert("Review Submitted!");
   }
 }
