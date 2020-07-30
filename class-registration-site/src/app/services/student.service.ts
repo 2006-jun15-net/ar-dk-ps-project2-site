@@ -63,17 +63,9 @@ export class StudentService {
     return getResponse;
   }
 
-  async createReview(studentId: number, courseId: number, text: string): Promise<Observable<any>> {
+  async createReview(review: Review): Promise<Observable<any>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-
-    let review: Review = {
-
-      courseId: courseId,
-      studentId: studentId,
-      text: text
-
-    } as Review;
 
     return this.http.post<Review>(`${API_ORIGIN}/api/Reviews`, {
       ...API_HEADERS(accessToken), ...{ body: review }

@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
 
     if (!this.isAuthenticated) {
-      this.oktaAuth.loginRedirect('/student');
+      this.oktaAuth.loginRedirect('/');
     }
   }
 

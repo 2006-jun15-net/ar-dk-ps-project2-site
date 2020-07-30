@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StudentService } from 'src/app/services/student.service';
-import { Student, Enrollment } from '../../models/models';
+import { Student, Enrollment, Review } from '../../models/models';
 import { OktaAuthService } from '@okta/okta-angular';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-student',
@@ -22,10 +23,16 @@ export class StudentComponent implements OnInit {
   public student!: Student;
   public enrollments!: Enrollment[];
 
-  constructor(private oktaAuth: OktaAuthService, private studentService: StudentService, private route: ActivatedRoute) {
+  constructor(private oktaAuth: OktaAuthService, private studentService: StudentService,
+    private route: ActivatedRoute, private modalService: NgbModal) {
 
     this.route.params.subscribe(
-      value => this.term = value.term
+
+      value => {
+
+        this.term = value.term
+        this.fetchAndUpdate();
+      }
     );
   }
 
@@ -36,6 +43,7 @@ export class StudentComponent implements OnInit {
       service => service.subscribe(
 
         value => {
+
           this.student = value;
           this.fetchAndUpdate();
         },
@@ -45,7 +53,7 @@ export class StudentComponent implements OnInit {
     );
   }
 
-  fetchAndUpdate() {
+  private fetchAndUpdate() {
 
     if (this.student === undefined) {
       return;
@@ -76,6 +84,40 @@ export class StudentComponent implements OnInit {
       service => service.subscribe(
 
         value => this.enrollments = value,
+        error => console.log(error)
+      )
+    );
+  }
+
+  openModal(modal: any, courseId: number) {
+
+    this.modalService.open(modal, { ariaLabelledBy: 'review-modal-title' }).result.then(
+
+      result => {
+        this.submitReview(result, courseId);
+      }
+    );
+  }
+
+  private submitReview(reviewBody: any, courseId: number) {
+
+    if (this.student === undefined) {
+      return;
+    }
+
+    let review: Review = {
+
+      text: reviewBody.text,
+      score: parseInt(reviewBody.score),
+      courseId: courseId,
+      studentId: this.student.studentId
+    };
+
+    this.studentService.createReview(review).then(
+
+      service => service.subscribe(
+
+        _ => { },
         error => console.log(error)
       )
     );

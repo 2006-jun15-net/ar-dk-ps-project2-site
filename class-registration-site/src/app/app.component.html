@@ -1,9 +1,15 @@
-<button *ngIf="isAuthenticated" (click)="logout()"> logout </button>
+<button class="btn btn-secondary" *ngIf="isAuthenticated" (click)="logout()"> logout </button>
 
-<ul *ngIf="isAuthenticated" ngbNav class="nav-pills">
+<ul *ngIf="isAuthenticated" [activeId]="student" ngbNav class="nav-pills justify-content-center">
 
-  <li [ngbNavItem]="student" [active]="false">
-    <a ngbNavLink routerLink="/student/fall">Student Info</a>
+  <li ngbDropdown class="nav-item">
+    <a href (click)="false" class="nav-link" ngbDropdownToggle>Student Info</a>
+    <div ngbDropdownMenu>
+      <a ngbDropdownItem routerLink="/student/fall">Fall</a>
+      <a ngbDropdownItem routerLink="/student/winter">Winter</a>
+      <a ngbDropdownItem routerLink="/student/spring">Spring</a>
+      <a ngbDropdownItem routerLink="/student/summer">Summer</a>
+    </div>
   </li>
 
   <li [ngbNavItem]="courses">
