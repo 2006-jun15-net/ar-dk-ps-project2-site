@@ -1,54 +1,60 @@
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 
 import { AppComponent } from './app.component';
 import { StudentComponent } from './components/student/student.component';
-import { CourseComponent } from './course/course.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CourseComponent } from './components/course/course.component';
 
-import { ClassRegistrationApiService } from './class-registration-api.service';
+import { StudentService } from './services/student.service';
+import { CourseService } from './services/course.service';
 
-const authConfig =
-{
-  issuer: 'https://dev-638266.okta.com/oauth2/default',
-  redirectUri: location.origin + '/implicit/callback',
-  clientId: '0oan3a2afYLWJgufo4x6',
-  pkce: true,
-  scopes: ['openid', 'profile', 'email']
-
-};
+import { AUTH } from './config';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {
     path: 'implicit/callback',
     component: OktaCallbackComponent
+  },
+  {
+    path: 'student/:term',
+    component: StudentComponent
+  },
+  {
+    path: 'courses',
+    component: CourseComponent
   }
 ];
 
-@NgModule({ 
+@NgModule({
   declarations: [
     AppComponent,
-    CourseComponent,
-    StudentComponent
+    StudentComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     OktaAuthModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: authConfig },
-    ClassRegistrationApiService
+    { provide: OKTA_CONFIG, useValue: AUTH },
+    StudentService,
+    CourseService
   ],
   bootstrap: [AppComponent]
 })

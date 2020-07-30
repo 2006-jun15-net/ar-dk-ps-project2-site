@@ -5,21 +5,33 @@ export interface Student {
 	lastName: string,
 	deptId: number,
 	creditRequirementMet: boolean;
+	enrollment: Enrollment[];
 }
 
 export interface Course {
 	courseName: string;
 	credits: number;
 	fees: number;
+	reviews: Review[];
 }
 
 export interface Section {
 	instructorId: number;
+	courseId: number;
 	course: Course;
 	term: string;
 }
 
 export interface Enrollment {
-	section: Section;
+	sectionId: number;
+	studentId: number;
+	sect: Section;
+}
+
+export interface Review {
+	text: string;
+	score: number;
+	studentId: number;
+	courseId: number;
 }
 
