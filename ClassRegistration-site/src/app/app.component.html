@@ -7,7 +7,7 @@
 
 </nav> -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Website Name</a>
+    <a class="navbar-brand" href="#">{{title}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>   
@@ -16,11 +16,11 @@
       <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/student">Student Details</a>
+          <a class="nav-link" href="#" routerLink="/student" ngbTooltip="Looks like you're not logged in">Student Details</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="#" routerLink="/course">Course Information</a>
+          <a class="nav-link" href="#" routerLink="/course" ngbTooltip="Looks like you're not logged in">Course Information</a>
         </li>
 
         
@@ -31,6 +31,6 @@
   </nav>
 
 <h1>{{title}}</h1>
-<app-student></app-student>
-<app-course></app-course>
+<!-- <app-student></app-student> -->
+<!-- <app-course></app-course> -->
 <router-outlet></router-outlet>

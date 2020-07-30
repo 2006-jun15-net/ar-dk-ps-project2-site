@@ -1,40 +1,24 @@
 
 
-<button (click)="goBack()">go back</button>
-
-<button class="btn btn-success" (click)="showSuccess()" ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp;
+<!-- <button (click)="goBack()">go back</button> -->
 
 
 
-
-
-
-
+ 
 
 <!-- get all courses available with pagination -->
 <div *ngIf="isAuthenticated && student !== null">
-  <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadAllCourses()">Load the Courses Available</button>
-    
-    <!-- <table id="details" class="table" *ngFor="let item of theCourses">
-      <tr>
-          <th>Course Name</th>
-          <th>Course Number</th>
-          <th>Department</th>
-          <th>Credit Points</th>
-          <th>Fee</th>
-      </tr>
-      <tr>
-          <td>{{ item.courseName }}</td>
-          <td>{{ item.courseId }}</td>
-          <td>{{ item.deptId }}</td>
-          <td>{{ item.credits }}</td>
-          <td>{{ item.fees | currency }}</td>
-          
-      </tr>
   
-    </table>  -->
+  <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadAllCourses()">View All Available Courses</button>
+    
+    
+    <!-- <form>
+      <div class="form-group form-inline" *ngIf="theCourses">
+          Full text search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+      </div>
+    </form> -->
 
-    <table id="details" class="table" *ngFor="let item of theCourses | slice: (page - 1) * pageSize: (page - 1) * pageSize + pageSize">
+    <table id="details" class="table table-sm table-bordered" *ngFor="let item of theCourses | slice: (page - 1) * pageSize: (page - 1) * pageSize + pageSize">
       <tr>
           <th>Course Name</th>
           <th>Course Number</th>
@@ -56,14 +40,12 @@
     <div *ngIf="theCourses" class="d-flex justify-content-between p-2">
       <ngb-pagination [collectionSize]="theCourses.length" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCourses()">
       </ngb-pagination>
-    </div>
-    
-    
-      <!-- <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCourses()">
+      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCourses()">
         <option [ngValue]="2">2 items per page</option>
         <option [ngValue]="4">4 items per page</option>
-      </select> -->
-    <!-- </div> -->
+      </select> 
+    </div>
+    
 </div>
     
 
@@ -72,16 +54,15 @@
 
 <!-- search course details by course name -->
 <div id="search-component" *ngIf="isAuthenticated && student !== null">
-  <h4><label for="search-box">Course Search</label></h4>
+  <h4><label for="search-box">Find a course by name</label></h4>
 
-  <!-- <input #searchBox id="search-box" (input)="search(searchBox.value)" type="search" placeholder="Search" aria-label="Search" required/>
-  <button (click)="getCourseBytheName(searchBox.value)" [disabled]="searchBox.invalid">Search</button> -->
+ 
 
   <form class="form-inline my-2 my-lg-0">
     <input #searchBox id="search-box" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" (input)="search(searchBox.value)" required/>
     <button class="btn btn-outline-info my-2 my-sm-0" (click)="getCourseBytheName(searchBox.value)" [disabled]="searchBox.invalid">Search</button>
   </form>
-  <table class="table" *ngIf="theCourse">
+  <table class="table" id="details2" *ngIf="theCourse">
     <tr>
         <th>Course Name</th>
         <th>Course Number</th>
@@ -94,12 +75,15 @@
         <td>{{ theCourse.courseId }}</td>
         <td>{{ theCourse.deptId }}</td>
         <td>{{ theCourse.credits }}</td>
-        <td>{{ theCourse.fees }}</td>
+        <td>{{ theCourse.fees | currency }}</td>
         
     </tr>
 
   </table> 
+  
 </div>
+
+
 
 
 
@@ -107,16 +91,16 @@
 
 <!-- get course details by ID -->
 <div *ngIf="isAuthenticated && student !== null">
-  <h4><label for="form-box">Search a course by its ID number</label></h4>
-  <!-- <input type="text" id="form-box" class="form-control" [(ngModel)]="id" placeholder="Search for a course by ID number" required #userInput="ngModel"/>
+  <h4><label for="form-box">Find a course by its ID number</label></h4>
   
-  <button (click)="getCourseById(id)" [disabled]="userInput.invalid">Search</button> -->
   
-  <form class="form-inline my-2 my-lg-0">
+  <form class="form-inline my-2 my-lg-0 has-success has-feedback">
     <input id="form-box" class="form-control mr-sm-2" type="text" [(ngModel)]="id" [ngModelOptions]="{standalone: true}" placeholder="Search" aria-label="Search" required #userInput="ngModel"/>
     <button class="btn btn-outline-info my-2 my-sm-0" (click)="getCourseById(id)" [disabled]="userInput.invalid">Search</button>
   </form>
-  <table class="table" *ngIf="theCourse2">
+  <p class="text-danger" *ngIf="userInput.invalid"> Please enter a course ID</p>
+  
+  <table class="table" id="details3" *ngIf="theCourse2">
     <tr>
         <th>Course Name</th>
         <th>Course Number</th>
@@ -129,7 +113,7 @@
         <td>{{ theCourse2.courseId }}</td>
         <td>{{ theCourse2.deptId }}</td>
         <td>{{ theCourse2.credits }}</td>
-        <td>{{ theCourse2.fees }}</td>
+        <td>{{ theCourse2.fees | currency }}</td>
         
     </tr>
 
@@ -142,20 +126,20 @@
 <!-- search courses and their reviews by instructor's last name + register button -->
 <div>
   <h4><label for="form-box3">Search a course by Professor's last name</label></h4>
-  <!-- <input type="text" id="form-box3" class="form-control" [(ngModel)]="profName" ng-attr-placeholder="ex. Erickson" required #userInput2="ngModel"/>
-  
-  <button (click)="getByInstrName(profName)" [disabled]="userInput2.invalid">Search</button> -->
+ 
   
   <form class="form-inline my-2 my-lg-0">
     <input id="form-box3" class="form-control mr-sm-2" type="text" [(ngModel)]="profName" [ngModelOptions]="{standalone: true}" placeholder="ex.Erickson" aria-label="Search" required #userInput2="ngModel"/>
     <button class="btn btn-outline-info my-2 my-sm-0" (click)="getByInstrName(profName)" [disabled]="userInput2.invalid">Search</button>
   </form>
-  <table class="table" *ngIf="theCourses4 && isAuthenticated && student !== null">
+  <p class="text-danger" *ngIf="userInput2.invalid"> Please enter a professor's name</p>
+  
+  <table class="table" id="details4" *ngIf="theCourses4 && isAuthenticated && student !== null">
     <tr>
         <th>#</th>
         <th>Section Number</th>
         <th>Term</th>
-        <th>Course Number</th>
+        <!-- <th>Course Number</th> -->
         <th>Instructor ID Number</th>
         <th>Course</th>
         <th>Department ID Number</th>
@@ -166,12 +150,12 @@
         <td>{{i + 1}}</td>
         <td>{{ item.sectId }}</td>
         <td>{{ item.term }}</td>
-        <td>{{ item.courseId }}</td>
+        <!-- <td>{{ item.courseId }}</td> -->
         <td>{{ item.instructorId }}</td>
         <td>{{ item.course.courseName }}</td>
         <td>{{ item.course.deptId }}</td>
         <td>{{ item.course.credits }}</td>
-        <td>{{ item.course.fees }}</td>
+        <td>{{ item.course.fees | currency }}</td>
 
         <button class="btn btn-outline-danger btn-block btn-lg" (click)="RegisterForSection(item)">
           Register
@@ -181,18 +165,14 @@
     </tr>
 
   </table> 
+  <!-- an alert pops up when registration was successful -->
+  <div #alert class="alert alert-success alert-dismissible fade hide" role="alert">
+    <button type="button" class="close" data-dismiss= "alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>You have registered successfully!</strong>
+  </div>
 </div>
-
-
-
-<!-- bring up an alert when successful, not finished yet -->
-<!-- <div #alert class="alert alert-success alert-dismissible fade show" role="alert">
-  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-  <span aria-hidden="true">&times;</span>
-  </button>
-  <strong>You have registered successfully!</strong>
-</div> -->
-
 
 
 
@@ -202,16 +182,16 @@
 
 <!-- Display any reviews with show/hide button-->
   <div *ngIf="theCourses4 && isAuthenticated && student !== null">
-    <button (click)="ViewReviews=!ViewReviews">{{ ViewReviews ? 'hide' : 'View Reviews' }}</button>
+    <button class="btn btn-outline-info my-2 my-sm-0" (click)="ViewReviews=!ViewReviews">{{ ViewReviews ? 'hide' : 'View Reviews' }}</button>
     <div *ngFor="let item of theCourses4">
       
       
       <div *ngIf="ViewReviews">
         <div *ngIf="item.course.reviews.length === 0">
-          No reviews yet for {{ item.course.courseName }}
+          <h4>No reviews yet for {{ item.course.courseName }}</h4>
         </div>
         <div *ngIf="item.course.reviews.length > 0">
-          <table class="table">
+          <table class="table" id="details5">
             <h3>Reviews for {{ item.course.courseName }}:</h3>
             <tr>
                 <th>#</th>
@@ -241,29 +221,28 @@
 
 
 
-<!-- student adding a review for a course -->
-<button (click)="ReviewSubmitForm=!ReviewSubmitForm">{{ ReviewSubmitForm ? 'Never Mind' : 'Submit A Review' }}</button>
+<!-- student adding a review for a course + validation -->
+<button class="btn btn-outline-info my-2 my-sm-0" (click)="ReviewSubmitForm=!ReviewSubmitForm">{{ ReviewSubmitForm ? 'Never Mind' : 'Submit A Review' }}</button>
 
 <div *ngIf="ReviewSubmitForm && isAuthenticated && student !== null">
   <div class="container">
-    <div>Add a Review for a Course</div>
-    <!-- <form [formGroup]="form">
-      <div class="form-group input-group-lg">
-        <input class="form-control" placeholder="Enter your last name" formControlName="term" required>
-      </div>
-      
-    </form> -->
+    <h2>Add a Review for a Course</h2>
+    
     <form [formGroup]="form2" (ngSubmit)="submitReviewForm()" #reviewSubmitForm="ngForm">
       
       
         <div class="form-group input-group-lg">
-          <input class="form-control" placeholder="Score" formControlName="item" required>
+          <input class="form-control" placeholder="Enter a score between 0 and 10" formControlName="item" required>
+          <p class="text-danger" *ngIf="(reviewFormControl.item.touched) && reviewFormControl.item.errors?.required">Score is required</p>
+          <p class="text-danger" *ngIf="(reviewFormControl.item.touched) && (reviewFormControl.item.errors?.min || reviewFormControl.item.errors?.max) ">Try again</p>
         </div>
         <div class="form-group input-group-lg">
           <input class="form-control" placeholder="Any Comments?" formControlName="comment" required>
+          <p class="text-danger" *ngIf="(reviewFormControl.comment.touched) && reviewFormControl.comment.errors?.required">Won't take too long to write</p>
         </div>
         <div class="form-group input-group-lg">
           <input class="form-control" placeholder="Course's ID number" formControlName="courseInfo" required>
+          <p class="text-danger" *ngIf="(reviewFormControl.courseInfo.touched) && reviewFormControl.courseInfo.errors?.required">ID number is required</p>
         </div>
 
         <div class="form-group">
@@ -272,6 +251,13 @@
 
     </form>
   </div>
+  <!-- an alert pops up when review was successfully created -->
+  <!-- <div #alert class="alert alert-success alert-dismissible fade hide" role="alert2">
+    <button type="button" class="close" data-dismiss= "alert2" aria-label="Close" (click)="closeAlert2()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Your review was submitted successfully!</strong>
+  </div> -->
 </div>
 
 

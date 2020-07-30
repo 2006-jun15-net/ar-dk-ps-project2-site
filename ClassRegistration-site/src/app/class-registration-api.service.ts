@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/Operators';
+// import { map } from 'rxjs/Operators';
 import CourseApi from './CourseApi';
 import SectionApi from './SectionApi';
 import ReviewApi from './ReviewApi';

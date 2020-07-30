@@ -9,9 +9,17 @@ import EnrollmentCreateApi from '../EnrollmentCreateApi';
 import { OktaAuthService } from '@okta/okta-angular';
 import { StudentService } from '../services/student.service';
 import  { Student } from '../models/models';
-
+  
 import { Location } from '@angular/common';
 import { Injectable, TemplateRef } from '@angular/core';
+
+import {debounceTime} from 'rxjs/Operators';
+
+import { PipeTransform } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+
+
+import { map, startWith } from 'rxjs/Operators';
 
 import { Observable, Subject } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -19,27 +27,48 @@ import { FormBuilder, Validators} from "@angular/forms";
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ViewChild, ElementRef } from '@angular/core';
 
-// interface Alert {
-//   type: string;
-//   message: string;
+interface Alert {
+  type: string;
+  message: string;
+}
+
+const ALERT: Alert = {
+  type: 'success',
+  message: 'Successful!',
+}
+
+
+
+// function search(text: string, pipe: PipeTransform): CourseApi[] {
+//   return this.theCourses.filter(classes => {
+//     const term = text.toLowerCase();
+//     return classes.courseName.toLowerCase().includes(term)
+//         || pipe.transform(classes.courseId).includes(term)
+//         || pipe.transform(classes.deptId).includes(term)
+//         || pipe.transform(classes.credits).includes(term)
+//         || pipe.transform(classes.fees).includes(term);
+//   });
 // }
 
-// const ALERT: Alert = {
-//   type: 'success',
-//   message: 'Successful!',
-// }
+
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.css']
+  styleUrls: ['./course.component.css'],
+  providers: [DecimalPipe]
 })
 export class CourseComponent {
   @ViewChild ('alert', { static: true }) alert: ElementRef | undefined = undefined;
-  // theAlert: Alert;
+  theAlert: Alert | undefined = undefined;
   
+  
+  private _success = new Subject<string>();
+  staticAlertClosed = false;
+  successMessage = '';
 
-  toasts: any;
+  //courses$: Observable<CourseApi[]>;
+  filter = new FormControl('');
 
   public theCourses: CourseApi[] | null = null;
   public theCourse: CourseApi | null = null;
@@ -65,12 +94,12 @@ export class CourseComponent {
   });
 
   form2 = this.fb.group({
-    item: ['', Validators.required],
+    item: ['', Validators.required, [Validators.min(0), Validators.max(10)]],
     comment: ['', Validators.required],
     courseInfo: ['', Validators.required],
   });
 
-
+ 
 
   public courseName: string | null = null;
   public courseId: number | null = null;
@@ -82,6 +111,7 @@ export class CourseComponent {
   id: number = 0;
   idProf: number = 0;
   profName: string = 'ex. Erickson'
+  //profName: string = ('', Validators.pattern('[a-zA-Z ]*'));
   thePlaceHolder: string = "start searching for a course by its ID number"
  
  
@@ -89,9 +119,14 @@ export class CourseComponent {
   student: Student | undefined = undefined;
  
   constructor(private dbCourse: ClassRegistrationApiService, private location: Location, private fb: FormBuilder, private oktaAuth: OktaAuthService,
-    private studentservice: StudentService) { 
+    private studentservice: StudentService, pipe: DecimalPipe) { 
   
    this.refreshCourses();
+
+  //  this.theCourses = this.filter.valueChanges.pipe(
+  //    startWith(''),
+  //    map(text => search(text, pipe))
+  //  );
     // this.oktaAuth.$authenticationState.subscribe(
     //   isAuthenticated => this.isAuthenticated = isAuthenticated
     // );
@@ -112,33 +147,28 @@ export class CourseComponent {
         },
         error => console.log(error)
       );
+
     }
+    
   }
 
-
-  show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
-    this.toasts.push({ textOrTpl, ...options });
+  public bringAlert(): void {
+    setTimeout(() => this.staticAlertClosed = true, 20000);
+    this._success.subscribe(message => this.successMessage = message);
+    this._success.pipe(debounceTime(5000)).subscribe(() => this.successMessage = '');
   }
 
-  // remove(toast) {
-  //   this.toasts = this.toasts.filter(t => t !== toast);
-  // }
-  
-
-  showSuccess() {
-    this.show('You successfully registered!', { classname: 'bg-success text-light', delay: 10000 });
+  get reviewFormControl() {
+    return this.form2.controls;
   }
   
+
+
 
   
   search(term: string): void {
     this.searchText.next(term);
   }
-
-  // searchID(id: number): void {
-    
-  //   this.searchNumber.next(id);
-  // }
 
   
  
@@ -178,6 +208,8 @@ export class CourseComponent {
   }
 
   
+
+  
        
 
   // ngOnInit(): void {
@@ -205,6 +237,7 @@ export class CourseComponent {
     .subscribe((classes) =>  {
       //console.log(classes);
       this.theCourse = classes;
+      
     })
   }
 
@@ -220,35 +253,7 @@ export class CourseComponent {
   }
 
   
-  //form to submit a review for a course
-  // public submitReviewForm(): void {
-  //   const thename = this.form.get('term');
-  //   if (thename) {
-  //     const name = thename.value as string;
-  //     const theScore = this.form2.get('item');
-  //     if (theScore) {
-  //       const score = theScore.value as number;
-  //       const theText = this.form2.get('comment');
-  //       if (theText) {
-  //         const text = theText.value as string;
-  //         const thecourseID = this.form2.get('courseInfo');
-  //         if (thecourseID) {
-  //           const courseId = thecourseID.value as number;
-  //           const reviewToAdd: ReviewCreateApi = { score, text, courseId};
-  //           this.dbCourse.addReview(name, reviewToAdd).subscribe(newReview => {
-  //             console.log(newReview);
-  //             this.theReviews?.push(newReview);
-  //             this.form.reset();
-  //             this.form2.reset();
-  //           })
-  //         }
-  //       }
-  //     }
-
-  //   }
-    
-    
-  // }
+  
 
   //submit a review if user is authorized
   async submitReviewForm() {
@@ -274,6 +279,8 @@ export class CourseComponent {
               console.log(newReview);
               this.theReviews?.push(newReview);
               this.form2.reset();
+
+              
             })
           }
         }
@@ -283,19 +290,6 @@ export class CourseComponent {
     
     
   
- 
-  
-
-  //register: need to use student's login
-  // public RegisterSection (item: SectionApi): void {
-  //   const sectId = item.sectId;
-  //   const studentId = 2; //need to do this with the login 
-  //   const EnrollmentToAdd: EnrollmentCreateApi = { sectId , studentId };
-  //   this.dbCourse.register(EnrollmentToAdd).subscribe(newRegister => {
-  //     console.log(newRegister);
-  //     this.theEnrollments?.push(newRegister);
-  //   }) 
-  // }
 
  
   //register for a course if authorized
@@ -316,10 +310,12 @@ export class CourseComponent {
       console.log(newRegister);
       this.theEnrollments?.push(newRegister);
 
-      //this.alert?.nativeElement.classList.add('show');
+      this.openAlert();
+
+      
     }) 
     
-    //this.openAlert();
+    
   }
 
 
