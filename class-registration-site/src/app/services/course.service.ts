@@ -12,10 +12,10 @@ export class CourseService {
 
   constructor(private oktaAuth: OktaAuthService, private http: HttpClient) { }
 
-  async getByName(courseName: string): Promise<Observable<Section>> {
+  async getByName(courseName: string): Promise<Observable<Section[]>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-    return this.http.get<Section>(`${API_ORIGIN}/api/Section/class/${courseName}`, API_HEADERS(accessToken));
+    return this.http.get<Section[]>(`${API_ORIGIN}/api/Section/class/${courseName}`, API_HEADERS(accessToken));
   }
 
   async getByInstructorName(instructorName: string): Promise<Observable<Section[]>> {

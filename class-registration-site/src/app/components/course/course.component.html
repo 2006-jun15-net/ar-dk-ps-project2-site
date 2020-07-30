@@ -9,7 +9,7 @@
       <label class="col-3" for="search-box-1">Name: </label>
 
       <input class="col-3" type="text" class="form-control" id="search-box-1" #searchBox1 placeholder="Course Name" />
-      <button class="col-3" (click)="searchByName(searchBox1.value)">Search</button>
+      <button class="col-3 btn btn-outline-primary" (click)="searchByName(searchBox1.value)">Search</button>
 
     </form>
 
@@ -19,17 +19,17 @@
 
       <input class="col-3" type="text" class="form-control" id="search-box-2" #searchBox2
         placeholder="Instructor Name" />
-      <button class="col-3" (click)="searchByInstructor(searchBox2.value)">Search</button>
+      <button class="col-3 btn btn-outline-primary" (click)="searchByInstructor(searchBox2.value)">Search</button>
 
     </form>
 
     <form class="form-inline d-flex justify-content-center md-form form-sm mt-0 row">
 
-      <label class="col-2" for="search-box-3">ID: </label>
+      <label class="col-3" for="search-box-3">ID: </label>
 
-      <input class="col-2" type="number" min="100" step="10" class="form-control" id="search-box-3" #searchBox3
+      <input class="col-3" type="number" min="100" step="10" class="form-control" id="search-box-3" #searchBox3
         placeholder="Course ID" />
-      <button class="col-3" (click)="searchByCourseId(searchBox3.value)">Search</button>
+      <button class="col-3 btn btn-outline-primary" (click)="searchByCourseId(searchBox3.value)">Search</button>
 
     </form>
 
@@ -41,18 +41,22 @@
 
     <div class="card-body row">
 
-      <label class="col">{{section.course.courseName}}</label>
-      <label class="col">{{section.course.credits}} {{section.term}}</label>
+      <label class="col">{{ section.course.courseName }}</label>
+      <label class="col">{{ section.course.credits }}</label>
+      <label class="col">{{ section.term }}</label>
+
       <button class="col btn btn-info"
         (click)="viewReviews = !viewReviews">{{ viewReviews ? 'Hide' : 'View Reviews' }}</button>
-
-      <ul *ngIf="viewReviews" class="col list-group list-group-flush">
-        <li *ngFor="let review of section.course.reviews" class=" list-group-item">{{review.text}}</li>
-      </ul>
 
       <button *ngIf="!viewReviews" class="col btn btn-success"
         (click)="enrollInCourse(section.courseId)">Enroll</button>
 
+    </div>
+
+    <div>
+      <ul *ngIf="viewReviews" class="list-group list-group-flush">
+        <li *ngFor="let review of section.course.reviews" class=" list-group-item">{{review.text}}</li>
+      </ul>
     </div>
 
   </div>

@@ -22,7 +22,9 @@ export class CourseComponent {
 
       service => service.subscribe(
 
-        value => this.sections = [value],
+        value => {
+          console.log(value); this.sections = value;
+        },
         error => console.log(error)
       )
     )
