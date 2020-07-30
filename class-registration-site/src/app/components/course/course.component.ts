@@ -10,64 +10,59 @@ import { CourseService } from '../../services/course.service';
 })
 export class CourseComponent {
 
-  sections: Section[] = [];
+  sections!: Section[];
 
   viewReviews: boolean = false;
 
-  constructor(private courseService: CourseService) {
+  constructor(private courseService: CourseService) { }
 
-    console.log('course constructor');
-  }
+  searchByName(name: string) {
 
-  async searchByName(name: string) {
+    this.courseService.getByName(name).then(
 
-    (await this.courseService.getByName(name)).subscribe(
-      value => this.sections = [value],
-      error => console.log(error)
+      service => service.subscribe(
+
+        value => this.sections = [value],
+        error => console.log(error)
+      )
     )
   }
 
-  async searchByInstructor(name: string) {
+  searchByInstructor(name: string) {
 
-    (await this.courseService.getByInstructorName(name)).subscribe(
-      value => this.sections = value,
-      error => console.log(error)
+    this.courseService.getByInstructorName(name).then(
+
+      service => service.subscribe(
+
+        value => this.sections = value,
+        error => console.log(error)
+      )
     )
   }
 
-  async searchByCourseId(id: number) {
+  searchByCourseId(id: number) {
 
-    (await this.courseService.getByCourseId(id)).subscribe(
-      value => this.sections = [value],
-      error => console.log(error)
-    )
+    this.courseService.getByCourseId(id).then(
+
+      service => service.subscribe(
+
+        value => this.sections = [value],
+        error => console.log(error)
+      )
+    );
   }
 
-  /*
-    //form to submit a review for a course
-    public submitReviewForm(): void {
-      const thename = this.form.get('term');
-      if (thename) {
-        const name = thename.value as string;
-        const theScore = this.form2.get('item');
-        if (theScore) {
-          const score = theScore.value as number;
-          const theText = this.form2.get('comment');
-          if (theText) {
-            const text = theText.value as string;
-            const thecourseID = this.form2.get('courseInfo');
-            if (thecourseID) {
-              const courseId = thecourseID.value as number;
-              const reviewToAdd: ReviewCreateApi = { score, text, courseId };
-              this.dbCourse.addReview(name, reviewToAdd).subscribe(newReview => {
-                console.log(newReview);
-                this.theReviews?.push(newReview);
-                this.form.reset();
-                this.form2.reset();
-              })
-            }
-          }
-        }
-      }
-    }*/
+  enrollInCourse(sectId: number) {
+
+    this.courseService.enrollStudent(sectId, localStorage['studentId']).then(
+
+      service => service.subscribe(
+
+        _ => { },
+        error => console.log(error)
+      )
+    );
+
+    alert("Successfully Enrolled");
+  }
 }
