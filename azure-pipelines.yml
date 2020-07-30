@@ -52,23 +52,23 @@ jobs:
     workingDirectory: $(appDir)
 
 
-  - script: ng test
-      --browsers ChromeHeadless
-      --no-watch
-      --code-coverage
-    displayName: ng test
-    workingDirectory: $(appDir)
+  # - script: ng test
+  #     --browsers ChromeHeadless
+  #     --no-watch
+  #     --code-coverage
+  #   displayName: ng test
+  #   workingDirectory: $(appDir)
   
 
 
-  - script: ng e2e
-    displayName: ng e2e
-    workingDirectory:  $(appDir)
-    enabled: false
+  # - script: ng e2e
+  #   displayName: ng e2e
+  #   workingDirectory:  $(appDir)
+  #   enabled: false
 
-  - script: ng lint
-    displayName: ng lint
-    workingDirectory:  $(appDir)
+  # - script: ng lint
+  #   displayName: ng lint
+  #   workingDirectory:  $(appDir)
 
 
   - task: SonarCloudPrepare@1
