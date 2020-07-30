@@ -6,6 +6,6 @@ export default interface ReviewApi extends ReviewCreateApi {
     //text: string;
     date: Date;
     //courseId: number;
-    studentId: number;
+    //studentId: number;
 
 }

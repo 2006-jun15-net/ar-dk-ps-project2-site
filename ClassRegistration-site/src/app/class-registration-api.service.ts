@@ -8,6 +8,9 @@ import ReviewCreateApi from './ReviewCreateApi';
 import EnrollmentApi from './EnrollmentApi';
 import EnrollmentCreateApi from './EnrollmentCreateApi';
 
+import { OktaAuthService } from '@okta/okta-angular';
+import { API_ORIGIN, API_HEADERS } from './config';
+
 import { Observable } from 'rxjs';
 
 
@@ -24,7 +27,7 @@ export class ClassRegistrationApiService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
 
   }
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private oktaAuth: OktaAuthService) { }
 
   //get all courses from back-end
   // public getAllCourses(): Promise<CourseApi[]> {
@@ -73,18 +76,26 @@ export class ClassRegistrationApiService {
   }
 
   //add a review for a course
-  public addReview (userName: string, userData: ReviewCreateApi): Observable<ReviewApi> {
-    return this.httpClient.post<ReviewApi>(`${this.baseUrl}/api/Reviews?studentname=${userName}`, userData);
+  async addReview (userData: ReviewCreateApi): Promise<Observable<ReviewApi>> {
+    const accessToken = await this.oktaAuth.getAccessToken();
+    return this.httpClient.post<ReviewApi>(`${this.baseUrl}/api/Reviews`, userData, API_HEADERS(accessToken));
   }
 
   //register for a course
-  // public registerCourse (userName: string, userCourse: string, userData: EnrollmentCreateApi): Observable<EnrollmentApi> {
-  //   return this.httpClient.post<EnrollmentApi>(`${this.baseUrl}/api/Enrollment?studentname=${userName}&coursename=${userCourse}`, userData);
+  // public register(item: EnrollmentCreateApi): Observable<EnrollmentApi> {
+  //   return this.httpClient.post<EnrollmentApi>(`${this.baseUrl}/api/Enrollment`, item);
   // }
 
-  public register(item: EnrollmentCreateApi): Observable<EnrollmentApi> {
-    return this.httpClient.post<EnrollmentApi>(`${this.baseUrl}/api/Enrollment`, item);
+  async register(item: EnrollmentCreateApi): Promise<Observable<EnrollmentApi>> {
+    const accessToken = await this.oktaAuth.getAccessToken();
+    return this.httpClient.post<EnrollmentApi>(`${this.baseUrl}/api/Enrollment`, item, API_HEADERS(accessToken));
   }
+
+  //courses for pagination
+  public coursesWithPagination(item: number, item2: number): Observable<CourseApi[]> {
+    return this.httpClient.get<CourseApi[]>(`${this.baseUrl}/api/Course?PageNumber=${item}&PageSize=${item2}`);
+  }
+  
   
   
 }

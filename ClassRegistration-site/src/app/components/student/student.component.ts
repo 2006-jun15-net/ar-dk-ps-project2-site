@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from 'src/app/services/student.service';
 import { Course, Student, Enrollment } from '../../models/models';
+
 import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
@@ -10,10 +11,10 @@ import { OktaAuthService } from '@okta/okta-angular';
 })
 export class StudentComponent implements OnInit {
 
-  isAuthenticated: boolean;
+  isAuthenticated: boolean = true;
 
   // creating a course array that holds enrollments
-  enrollments: Enrollment[];
+  courses: Course[] = [];
 
   // declaring a variable to hold amount owed
   amount: number = 0;
@@ -32,14 +33,14 @@ export class StudentComponent implements OnInit {
 
   // variable to hold total credits
   totalCredits: number = 0;
-
-  student: Student = null;
+  
+  student: Student | undefined = undefined;
 
   constructor(private oktaAuth: OktaAuthService, private studentService: StudentService) {
 
-    this.oktaAuth.$authenticationState.subscribe(
-      isAuthenticated => this.isAuthenticated = isAuthenticated
-    );
+    // this.oktaAuth.$authenticationState.subscribe(
+    //   isAuthenticated => this.isAuthenticated = isAuthenticated
+    // );
   }
 
   async ngOnInit() {
@@ -70,25 +71,27 @@ export class StudentComponent implements OnInit {
   }
 
   // getting courses of a particular student
-  async getEnrollments() {
+  // async getEnrollments() {
 
-    if (!this.isAuthenticated || this.student === null) {
-      this.login();
-    }
+  //   if (!this.isAuthenticated || this.student === null) {
+  //     this.login();
+  //   }
 
-    let studentId = this.student.studentId;
+  //   let studentId = this.student.studentId;
 
-    return (await this.studentService.getCourses(studentId))
-      .subscribe(data => this.enrollments = data);
-  }
+  //   return (await this.studentService.getCourses(studentId))
+  //     .subscribe(data => this.enrollments = data);
+  // }
 
   // getting amount owed
   async getAmount() {
 
-    if (!this.isAuthenticated || this.student === null) {
-      this.login();
+    // if (!this.isAuthenticated || this.student === null) {
+    //   this.login();
+    // }
+    if (this.student === undefined) {
+      return;
     }
-
     let studentId = this.student.studentId;
 
     return (await this.studentService.getAmount(studentId, this.semester))
@@ -96,23 +99,29 @@ export class StudentComponent implements OnInit {
   }
 
   // getting the discount.
-  async getDiscount() {
+  // async getDiscount() {
 
-    if (!this.isAuthenticated || this.student === null) {
-      this.login();
-    }
+  //   // if (!this.isAuthenticated || this.student === null) {
+  //   //   this.login();
+  //   // }
+  //   if (this.student === undefined) {
+  //     return;
+  //   }
 
-    let studentId = this.student.studentId;
+  //   let studentId = this.student.studentId;
 
-    return (await this.studentService.getDiscount(studentId))
-      .subscribe(data => this.discount = data)
-  }
+  //   return (await this.studentService.getDiscount(studentId))
+  //     .subscribe(data => this.discount = data)
+  // }
 
   // getting credits
   async getTotalCredits() {
 
-    if (!this.isAuthenticated || this.student === null) {
-      this.login();
+    // if (!this.isAuthenticated || this.student === null) {
+    //   this.login();
+    // }
+    if (this.student === undefined) {
+      return;
     }
 
     let studentId = this.student.studentId;
@@ -124,9 +133,9 @@ export class StudentComponent implements OnInit {
   // final Amount to be paid after discount
   getFinalAmount() {
 
-    if (!this.isAuthenticated || this.student === null) {
-      this.login()
-    }
+    // if (!this.isAuthenticated || this.student === null) {
+    //   this.login()
+    // }
 
     if (this.amount < this.discount) {
 

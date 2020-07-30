@@ -7,19 +7,30 @@
 
 </nav> -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" routerLink="/course">Course Information</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></button>
-      <span class="navbar-toggler-icon"></span>
-    
-</nav>
-
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" routerLink="/course">Course Info</a>
+    <a class="navbar-brand" href="#">Website Name</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
-</nav> -->
+    </button>   
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/student">Student Details</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" routerLink="/course">Course Information</a>
+        </li>
+
+        
+
+      </ul>
+      
+    </div>
+  </nav>
 
 <h1>{{title}}</h1>
 <app-student></app-student>
+<app-course></app-course>
 <router-outlet></router-outlet>

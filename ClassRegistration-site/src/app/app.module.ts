@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 
+import { CommonModule } from '@angular/common';
+
+//import { NgbdTablePagination } from './table-pagination';
+
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import  { AppRoutingModule } from 'src/app/app-routing.module';
 import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 
 import { AppComponent } from './app.component';
@@ -12,6 +17,7 @@ import { StudentComponent } from './components/student/student.component';
 import { CourseComponent } from './course/course.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+ 
 import { ClassRegistrationApiService } from './class-registration-api.service';
 
 const authConfig =
@@ -39,12 +45,16 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
     OktaAuthModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppRoutingModule,
+  
+
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: authConfig },
