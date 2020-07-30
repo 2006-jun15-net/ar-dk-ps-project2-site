@@ -1,0 +1,30 @@
+<div *ngIf="student">
+    <h3>Welcome, {{ student.firstName }} {{ student.lastName }}!</h3>
+</div>
+
+<h4 *ngIf="term">
+    Term: {{ term }}
+</h4>
+
+<h4 *ngIf="enrollments && enrollments.length > 0">Enrollments:</h4>
+
+<div *ngFor="let enrollment of enrollments" class="card">
+    <div class="card-body">
+        {{ enrollment.sect.course.courseName }} {{ enrollment.sect.course.credits }}
+        {{ enrollment.sect.course.fees }} {{ enrollment.sect.term }}
+    </div>
+</div>
+
+<h4 *ngIf="!enrollments || enrollments.length == 0">No enrollments</h4>
+
+<h4 *ngIf="credits > 0">
+    Total Credits: {{ credits }}
+</h4>
+
+<h4 *ngIf="amount > 0">
+    Total Amount Owed: {{ amount | currency }}
+</h4>
+
+<h4 *ngIf="discount > 0">
+    {{ student.residentId }} Discount: {{ discount | currency }}
+</h4>

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ClassRegistration-site": {
+    "class-registration-site": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ClassRegistration-site",
+            "outputPath": "dist/class-registration-site",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -24,7 +24,6 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -63,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ClassRegistration-site:build"
+            "browserTarget": "class-registration-site:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ClassRegistration-site:build:production"
+              "browserTarget": "class-registration-site:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ClassRegistration-site:build"
+            "browserTarget": "class-registration-site:build"
           }
         },
         "test": {
@@ -112,15 +111,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ClassRegistration-site:serve"
+            "devServerTarget": "class-registration-site:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ClassRegistration-site:serve:production"
+              "devServerTarget": "class-registration-site:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "ClassRegistration-site"
+    }
+  },
+  "defaultProject": "class-registration-site"
 }

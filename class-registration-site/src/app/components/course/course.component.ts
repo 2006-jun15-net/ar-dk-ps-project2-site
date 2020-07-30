@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Location } from '@angular/common';
-import { Observable, Subject } from 'rxjs';
-import { FormGroup, FormControl } from '@angular/forms';
-import { FormBuilder, Validators } from "@angular/forms";
-import { Course, Review, Section } from '../../models/models';
+import { Section } from '../../models/models';
 import { CourseService } from '../../services/course.service';
 
 @Component({
@@ -14,11 +10,14 @@ import { CourseService } from '../../services/course.service';
 })
 export class CourseComponent {
 
-  sections: Section[]
+  sections: Section[] = [];
 
   viewReviews: boolean = false;
 
-  constructor(private courseService: CourseService) { }
+  constructor(private courseService: CourseService) {
+
+    console.log('course constructor');
+  }
 
   async searchByName(name: string) {
 
@@ -70,16 +69,5 @@ export class CourseComponent {
           }
         }
       }
-    }
-  
-    //register: need to use student's login
-    public RegisterSection(item: SectionApi): void {
-      const sectId = item.sectId;
-      const studentId = 2; //need to do this with the login 
-      const EnrollmentToAdd: EnrollmentCreateApi = { sectId, studentId };
-      this.dbCourse.register(EnrollmentToAdd).subscribe(newRegister => {
-        console.log(newRegister);
-        this.theEnrollments?.push(newRegister);
-      })
     }*/
 }

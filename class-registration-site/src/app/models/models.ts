@@ -24,7 +24,7 @@ export interface Section {
 export interface Enrollment {
 	sectionId: number;
 	studentId: number;
-	section: Section;
+	sect: Section;
 }
 
 export interface Review {

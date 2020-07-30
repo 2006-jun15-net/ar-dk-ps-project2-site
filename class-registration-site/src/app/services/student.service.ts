@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Course, Student, Review } from '../models/models';
+import { Student, Review, Enrollment } from '../models/models';
 import { Observable } from 'rxjs';
 import { OktaAuthService } from '@okta/okta-angular';
 import { API_ORIGIN, API_HEADERS } from '../config';
@@ -10,10 +10,13 @@ import { API_ORIGIN, API_HEADERS } from '../config';
 })
 export class StudentService {
 
+  private student: Student = {} as Student;
+  private enrollments: Enrollment[] = [];
+
   constructor(private oktaAuth: OktaAuthService, private http: HttpClient) { }
 
   //getting student details
-  async getStudentDetails(): Promise<Observable<Student>> {
+  async fetchStudentDetails(): Promise<Observable<Student>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
     const user = await this.oktaAuth.getUser();
@@ -27,30 +30,37 @@ export class StudentService {
       lastName = user.family_name as string;
     }
 
-    return this.http.get<Student>(
+    const getResponse = this.http.get<Student>(
       `${API_ORIGIN}/api/Student?FirstName=${firstName}&LastName=${lastName}`,
       API_HEADERS(accessToken));
+
+    return getResponse;
   }
 
-  //getting courses of a particular student
-  async getCourses(id: number): Promise<Observable<Course[]>> {
+  // getting total amount owed 
+  async getAmount(id: number, semester: string): Promise<Observable<number>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-    return this.http.get<Course[]>(`${API_ORIGIN}/api/Student/${id}/courses`, API_HEADERS(accessToken))
+    const getResponse = this.http.get<number>(`${API_ORIGIN}/api/Student/${id}/${semester}`, API_HEADERS(accessToken));
+
+    return getResponse;
   }
 
-  //getting total amount owed 
-  async getAmount(id: number, semester: string): Promise<Observable<any>> {
+  // getting the discount based on the resident type
+  async getDiscount(id: number): Promise<Observable<number>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-    return this.http.get<any>(`${API_ORIGIN}/api/Student/${id}/${semester}`, API_HEADERS(accessToken))
+    const getResponse = this.http.get<number>(`${API_ORIGIN}/api/Student/${id}/discount`, API_HEADERS(accessToken));
+
+    return getResponse;
   }
 
-  //geeting the discount based on the resident type
-  async getDiscount(id: number): Promise<Observable<any>> {
+  async getEnrollments(id: number, term: string): Promise<Observable<Enrollment[]>> {
 
     const accessToken = await this.oktaAuth.getAccessToken();
-    return this.http.get<any>(`${API_ORIGIN}/api/Student/${id}/discount`, API_HEADERS(accessToken))
+    const getResponse = this.http.get<Enrollment[]>(`${API_ORIGIN}/api/Student/${id}/${term}/courses`, API_HEADERS(accessToken));
+
+    return getResponse;
   }
 
   async createReview(studentId: number, courseId: number, text: string): Promise<Observable<any>> {

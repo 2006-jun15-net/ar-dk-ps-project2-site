@@ -17,6 +17,7 @@ import { StudentService } from './services/student.service';
 import { CourseService } from './services/course.service';
 
 import { AUTH } from './config';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {
@@ -24,7 +25,7 @@ const routes: Routes = [
     component: OktaCallbackComponent
   },
   {
-    path: 'student',
+    path: 'student/:term',
     component: StudentComponent
   },
   {
@@ -47,7 +48,8 @@ const routes: Routes = [
     OktaAuthModule,
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: AUTH },

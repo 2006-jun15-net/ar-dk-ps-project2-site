@@ -1,4 +1,4 @@
-export const API_ORIGIN = "https://ar-dk-ps-project2.azurewebsites.net";
+export const API_ORIGIN = "http://localhost:47144"; //"https://ar-dk-ps-project2.azurewebsites.net";
 
 export function API_HEADERS(accessToken: any) {
 

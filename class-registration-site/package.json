@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.0.4",
+    "@angular/cdk": "^10.1.1",
     "@angular/common": "~10.0.4",
     "@angular/compiler": "~10.0.4",
     "@angular/core": "~10.0.4",
@@ -22,7 +23,6 @@
     "@angular/router": "~10.0.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@okta/okta-angular": "^2.1.0",
-    "bootstrap": "^4.5.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
