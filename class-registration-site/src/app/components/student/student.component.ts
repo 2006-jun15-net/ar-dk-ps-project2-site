@@ -23,8 +23,10 @@ export class StudentComponent implements OnInit {
   public student!: Student;
   public enrollments!: Enrollment[];
 
-  constructor(private oktaAuth: OktaAuthService, private studentService: StudentService,
-    private route: ActivatedRoute, private modalService: NgbModal) {
+  public reviewTextValidated: boolean = true;
+
+  constructor(private studentService: StudentService, private route: ActivatedRoute,
+    private modalService: NgbModal) {
 
     this.route.params.subscribe(
 
@@ -91,17 +93,24 @@ export class StudentComponent implements OnInit {
 
   openModal(modal: any, courseId: number) {
 
-    this.modalService.open(modal, { ariaLabelledBy: 'review-modal-title' }).result.then(
+    this.reviewTextValidated = true;
+    this.modalService.open(modal, { ariaLabelledBy: 'review-modal-title' });/*.result.then(
 
       result => {
         this.submitReview(result, courseId);
       }
-    );
+    );*/
   }
 
   private submitReview(reviewBody: any, courseId: number) {
 
     if (this.student === undefined) {
+      return;
+    }
+
+    if (reviewBody.text.length == 0 || reviewBody.text.length >= 2000) {
+
+      this.reviewTextValidated = false;
       return;
     }
 
