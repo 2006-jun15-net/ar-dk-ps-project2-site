@@ -1,0 +1,50 @@
+<div class="container">
+
+	<h3>Search</h3>
+
+	<form class="form-inline d-flex justify-content-center md-form form-sm mt-0 row">
+
+		<label class="col-3" for="search-box-1">Name: </label>
+
+		<input class="col-3" type="text" class="form-control" id="search-box-1" #searchBox1 placeholder="Course Name" />
+		<button class="col-3 btn btn-outline-primary" (click)="searchByName(searchBox1.value)">Search</button>
+
+	</form>
+
+	<form class="form-inline d-flex justify-content-center md-form form-sm mt-0 row">
+
+		<label class="col-8" for="page-number">Page Number: </label>
+		<input class="col-8 form-control" type="number" id="page-number" [(ngModel)]="pageNumber" />
+
+		<label class="col-8" for="page-size">Page Size: </label>
+		<input class="col-8 form-control" type="number" id="page-size" [(ngModel)]="pageSize" />
+
+	</form>
+
+	<h4 *ngIf="sections && sections.length > 0">Courses found:</h4>
+
+	<div *ngFor="let course of courses" class="card">
+
+		<div class="card-body row">
+
+			<label class="col-4">{{ course.courseName }}</label>
+			<label class="col-4">{{ course.credits }}</label>
+
+			<button class="col-4 btn btn-info"
+				(click)="viewReviews = !viewReviews">{{ viewReviews ? 'Hide' : 'View Reviews' }}</button>
+
+		</div>
+
+		<label *ngIf="viewReviews" for="reviews">Reviews:</label>
+
+		<div>
+
+			<ul *ngIf="viewReviews" class="list-group list-group-flush">
+				<li *ngFor="let review of course.reviews" class=" list-group-item">{{review.text}}</li>
+			</ul>
+
+		</div>
+
+	</div>
+
+</div>

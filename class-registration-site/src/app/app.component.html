@@ -1,21 +1,32 @@
 <button class="btn btn-secondary" *ngIf="isAuthenticated" (click)="logout()"> logout </button>
 
-<ul *ngIf="isAuthenticated" [activeId]="none" ngbNav class="nav-pills justify-content-center">
-
-  <li [ngbNavItem]="none"></li>
+<ul *ngIf="isAuthenticated" [activeId]="" ngbNav class="nav-pills justify-content-center"
+  style="background-color: rgb(172, 172, 172)">
 
   <li ngbDropdown class="nav-item">
+
     <a href (click)="false" class="nav-link" ngbDropdownToggle>Student Info</a>
+
     <div ngbDropdownMenu>
+
       <a ngbDropdownItem routerLink="/student/fall">Fall</a>
       <a ngbDropdownItem routerLink="/student/winter">Winter</a>
       <a ngbDropdownItem routerLink="/student/spring">Spring</a>
       <a ngbDropdownItem routerLink="/student/summer">Summer</a>
+
     </div>
   </li>
 
-  <li [ngbNavItem]="courses">
-    <a ngbNavLink routerLink="/courses">Course Registration</a>
+  <li ngbDropdown class="nav-item">
+
+    <a href (click)="false" class="nav-link" ngbDropdownToggle>Courses</a>
+
+    <div ngbDropdownMenu>
+
+      <a ngbDropdownItem routerLink="/courses/enroll">Register</a>
+      <a ngbDropdownItem routerLink="/courses/search">Search</a>
+
+    </div>
   </li>
 
 </ul>

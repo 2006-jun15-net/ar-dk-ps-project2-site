@@ -18,6 +18,7 @@ import { CourseService } from './services/course.service';
 
 import { AUTH } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchCourseComponent } from './components/search-course/search-course.component';
 
 const routes: Routes = [
   {
@@ -29,8 +30,12 @@ const routes: Routes = [
     component: StudentComponent
   },
   {
-    path: 'courses',
+    path: 'courses/enroll',
     component: CourseComponent
+  },
+  {
+    path: 'courses/search',
+    component: SearchCourseComponent
   }
 ];
 
@@ -38,7 +43,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     StudentComponent,
-    CourseComponent
+    CourseComponent,
+    SearchCourseComponent
   ],
   imports: [
     BrowserModule,

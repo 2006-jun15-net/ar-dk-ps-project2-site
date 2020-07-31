@@ -8,17 +8,16 @@ import { CourseService } from '../../services/course.service';
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
+// TODO Should probably be called 'Enrollment Component'
 export class CourseComponent {
 
   sections!: Section[];
-
-  viewReviews: boolean = false;
 
   constructor(private courseService: CourseService) { }
 
   searchByName(name: string) {
 
-    this.courseService.getByName(name).then(
+    this.courseService.getSectionsByCourseName(name).then(
 
       service => service.subscribe(
 
@@ -32,7 +31,7 @@ export class CourseComponent {
 
   searchByInstructor(name: string) {
 
-    this.courseService.getByInstructorName(name).then(
+    this.courseService.getSectionsByInstructorName(name).then(
 
       service => service.subscribe(
 
@@ -44,7 +43,7 @@ export class CourseComponent {
 
   searchByCourseId(id: number) {
 
-    this.courseService.getByCourseId(id).then(
+    this.courseService.getSectionsByCourseId(id).then(
 
       service => service.subscribe(
 

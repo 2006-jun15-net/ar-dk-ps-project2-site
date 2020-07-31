@@ -1,6 +1,6 @@
 <div class="container">
 
-  <h3>Search and Enroll</h3>
+  <h3>Enroll</h3>
 
   <div id="search-component">
 
@@ -35,7 +35,7 @@
 
   </div>
 
-  <h4 *ngIf="sections && sections.length > 0">Courses found:</h4>
+  <h4 *ngIf="sections && sections.length > 0">Sections found:</h4>
 
   <div *ngFor="let section of sections" class="card">
 
@@ -45,21 +45,7 @@
       <label class="col">{{ section.course.credits }}</label>
       <label class="col">{{ section.term }}</label>
 
-      <button class="col btn btn-info"
-        (click)="viewReviews = !viewReviews">{{ viewReviews ? 'Hide' : 'View Reviews' }}</button>
-
-      <button *ngIf="!viewReviews" class="col btn btn-success"
-        (click)="enrollInCourse(section.courseId)">Enroll</button>
-
-    </div>
-
-    <label *ngIf="viewReviews" for="reviews">Reviews:</label>
-
-    <div>
-
-      <ul *ngIf="viewReviews" class="list-group list-group-flush">
-        <li *ngFor="let review of section.course.reviews" class=" list-group-item">{{review.text}}</li>
-      </ul>
+      <button class="col btn btn-success" (click)="enrollInCourse(section.courseId)">Enroll</button>
 
     </div>
 
