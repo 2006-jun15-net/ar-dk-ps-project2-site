@@ -1,12 +1,23 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { OktaAuthService } from '@okta/okta-angular';
 
 describe('AppComponent', () => {
+
+  let oktaAuth = {
+    isAuthenticated() {
+      return true;
+    }
+  }
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+
+      providers: [
+        { provide: OktaAuthService, useFactory: () => oktaAuth }
+      ]
     }).compileComponents();
   }));
 
