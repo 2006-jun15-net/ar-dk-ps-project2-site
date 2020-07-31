@@ -1,12 +1,24 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { OktaAuthService } from '@okta/okta-angular';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
 
   let oktaAuth = {
+
+    $authenticationState: of(true),
+
     isAuthenticated() {
       return true;
+    }
+  }
+
+  let httpClient = {
+
+    get(url: any, body?: any, headers?: any) {
+      return of(null);
     }
   }
   beforeEach(async(() => {
@@ -16,7 +28,8 @@ describe('AppComponent', () => {
       ],
 
       providers: [
-        { provide: OktaAuthService, useFactory: () => oktaAuth }
+        { provide: OktaAuthService, useFactory: () => oktaAuth },
+        { provide: HttpClient, useFactory: () => httpClient }
       ]
     }).compileComponents();
   }));
