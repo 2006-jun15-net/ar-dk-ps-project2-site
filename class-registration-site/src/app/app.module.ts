@@ -16,7 +16,7 @@ import { CourseComponent } from './components/course/course.component';
 import { StudentService } from './services/student.service';
 import { CourseService } from './services/course.service';
 
-import { AUTH } from './config';
+import { AUTH } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [

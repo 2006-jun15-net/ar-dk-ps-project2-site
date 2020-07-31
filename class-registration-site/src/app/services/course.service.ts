@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { API_ORIGIN, API_HEADERS } from '../config';
+import { API_ORIGIN, API_HEADERS } from '../app.config';
 import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -30,15 +30,15 @@ export class CourseService {
     return this.http.get<Section>(`${API_ORIGIN}/api/Section?courseId=${courseId}`, API_HEADERS(accessToken));
   }
 
-  async enrollStudent(sectionId: number, studentId: number): Promise<Observable<Section>> {
+  async enrollStudent(sectionId: number, studentId: number) {
 
     const accessToken = await this.oktaAuth.getAccessToken();
 
-    let enrollment: Enrollment = {
+    let enrollment: object = {
       studentId: studentId,
       sectionId: sectionId
-    } as Enrollment;
+    };
 
-    return this.http.post<Section>(`${API_ORIGIN}/api/Enrollment`, { ...API_HEADERS(accessToken), ...{ body: enrollment } });
+    return this.http.post(`${API_ORIGIN}/api/Enrollment`, enrollment, API_HEADERS(accessToken));
   }
 }

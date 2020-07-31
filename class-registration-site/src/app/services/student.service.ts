@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Student, Review, Enrollment } from '../models/models';
 import { Observable } from 'rxjs';
 import { OktaAuthService } from '@okta/okta-angular';
-import { API_ORIGIN, API_HEADERS } from '../config';
+import { API_ORIGIN, API_HEADERS } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -63,12 +63,23 @@ export class StudentService {
     return getResponse;
   }
 
-  async createReview(review: Review): Promise<Observable<any>> {
+  async createReview(text: string, score: number, courseId: number, studentId: number) {
 
     const accessToken = await this.oktaAuth.getAccessToken();
 
-    return this.http.post<Review>(`${API_ORIGIN}/api/Reviews`, {
-      ...API_HEADERS(accessToken), ...{ body: review }
-    });
+    let review: any = {
+      text: text,
+      score: score,
+      courseId: courseId,
+      studentId: studentId
+    };
+
+    return this.http.post(`${API_ORIGIN}/api/Reviews`, review, API_HEADERS(accessToken));
+  }
+
+  async deleteEnrollment(enrollmentId: number, studentId: number) {
+
+    const accessToken = await this.oktaAuth.getAccessToken();
+    return this.http.delete(`${API_ORIGIN}/api/Enrollment/${enrollmentId}?studentId=${studentId}`, API_HEADERS(accessToken));
   }
 }

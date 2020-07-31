@@ -23,6 +23,7 @@ export interface Section {
 }
 
 export interface Enrollment {
+	enrollmentId: number;
 	sectionId: number;
 	studentId: number;
 	sect: Section;

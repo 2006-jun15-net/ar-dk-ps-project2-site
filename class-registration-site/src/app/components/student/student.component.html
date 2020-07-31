@@ -14,7 +14,7 @@
 
         <form>
 
-            <ngb-alert *ngIf="!reviewTextValidated">
+            <ngb-alert [dismissable]="true" *ngIf="!reviewTextValidated">
                 Text must be between 1 and 2000 characters
             </ngb-alert>
 
@@ -39,7 +39,7 @@
 
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark"
-            (click)="modal.close({text: reviewText.value, score: reviewScore.value})">Submit</button>
+            (click)="submitReview({text: reviewText.value, score: reviewScore.value})">Submit</button>
     </div>
 </ng-template>
 
@@ -69,7 +69,7 @@
             <label class="col">{{ enrollment.sect.course.fees | currency }}</label>
             <label class="col">{{ enrollment.sect.term }}</label> <button class="btn btn-info col"
                 (click)="openModal(reviewModal, enrollment.sect.courseId)">Review</button>
-            <button class="btn btn-danger col">Delete</button>
+            <button class="btn btn-danger col" (click)="deleteEnrollment(enrollment.enrollmentId)">Delete</button>
         </div>
     </div>
 

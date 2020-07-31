@@ -25,6 +25,8 @@ export class StudentComponent implements OnInit {
 
   public reviewTextValidated: boolean = true;
 
+  private courseId!: number;
+
   constructor(private studentService: StudentService, private route: ActivatedRoute,
     private modalService: NgbModal) {
 
@@ -94,15 +96,12 @@ export class StudentComponent implements OnInit {
   openModal(modal: any, courseId: number) {
 
     this.reviewTextValidated = true;
-    this.modalService.open(modal, { ariaLabelledBy: 'review-modal-title' });/*.result.then(
+    this.courseId = courseId;
 
-      result => {
-        this.submitReview(result, courseId);
-      }
-    );*/
+    this.modalService.open(modal, { ariaLabelledBy: 'review-modal-title' });
   }
 
-  private submitReview(reviewBody: any, courseId: number) {
+  submitReview(reviewBody: any) {
 
     if (this.student === undefined) {
       return;
@@ -114,23 +113,36 @@ export class StudentComponent implements OnInit {
       return;
     }
 
-    let review: Review = {
+    this.studentService.createReview(reviewBody.text,
+      parseInt(reviewBody.score), this.courseId, this.student.studentId).then(
 
-      text: reviewBody.text,
-      score: parseInt(reviewBody.score),
-      courseId: courseId,
-      studentId: this.student.studentId
-    };
+        service => service.subscribe(
 
-    this.studentService.createReview(review).then(
+          value => console.log(value),
+          error => console.log(error)
+        )
+      );
+
+    this.modalService.dismissAll();
+  }
+
+  deleteEnrollment(enrollmentId: number) {
+
+    if (this.student === undefined) {
+      return;
+    }
+
+    this.studentService.deleteEnrollment(enrollmentId, this.student.studentId).then(
 
       service => service.subscribe(
 
-        _ => { },
+        value => {
+
+          console.log(value);
+          this.fetchAndUpdate();
+        },
         error => console.log(error)
       )
-    );
-
-    alert("Review Submitted!");
+    )
   }
 }
